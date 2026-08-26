@@ -196,24 +196,24 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
         ‹
       </button>
 
-      {/* TRACK COM 3 CARDS EXATOS NO PC */}
-      <div className="w-full overflow-hidden">
-        <div
-          className="flex transition-transform duration-700 ease-in-out gap-6"
-          style={{
-            transform: `translateX(-${currentIndex * (100 / (typeof window !== "undefined" && window.innerWidth >= 1024 ? 3 : window.innerWidth >= 640 ? 2 : 1))}%)`,
-          }}
-        >
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex-grow-0"
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+     {/* TRACK COM 3 CARDS EXATOS NO PC */}
+<div className="w-full overflow-hidden">
+  <div
+    className="flex transition-transform duration-700 ease-in-out gap-6"
+    style={{
+      transform: `translateX(-${currentIndex * 33.333}%)`,
+    }}
+  >
+    {products.map((product) => (
+      <div
+        key={product.id}
+        className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex-grow-0"
+      >
+        <ProductCard product={product} />
       </div>
+    ))}
+  </div>
+</div>
 
       {/* BOTÃO DIREITA */}
       <button

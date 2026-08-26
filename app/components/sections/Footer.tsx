@@ -1,0 +1,238 @@
+import Link from "next/link";
+
+export default function Footer() {
+  return (
+    <footer className="w-full bg-[#59abf8] text-white pt-16 pb-12 px-4 sm:px-6 md:px-12 border-t-[8px] border-[#970797] relative z-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        {/* TOPO: BANNER PRINCIPAL */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-4 border-black bg-[#970797] text-white p-6 sm:p-8 rounded-3xl shadow-[8px_8px_0px_#000000] mb-16">
+          <div>
+            <span className="font-mono text-xs font-black uppercase tracking-widest bg-black text-white px-3 py-1 rounded">
+              CURADORIA INDEPENDENTE // 2026
+            </span>
+            <h2 className="font-title text-4xl sm:text-6xl font-black uppercase tracking-tight mt-3 text-white">
+              (nomeloja)
+            </h2>
+          </div>
+          <p className="font-mono text-sm sm:text-base font-black uppercase max-w-md mt-4 md:mt-0 text-white leading-relaxed">
+            Pesquisa editorial, comparação de especificações e achados de beleza, maquiagem e acessórios em marketplaces oficiais.
+          </p>
+        </div>
+
+        {/* GRID DAS 4 COLUNAS EM CARDS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-16">
+          {/* COLUNA 1: MODELO & CONTATO (4/12) */}
+          <div className="lg:col-span-4 rounded-3xl border-4 border-black bg-[#59abf8] p-6 sm:p-8 shadow-[8px_8px_0px_#000000] flex flex-col justify-between gap-6">
+            <div className="space-y-6">
+              <div>
+                <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit mb-2">
+                  [ MODELO & TRANSPARÊNCIA ]
+                </span>
+                <p className="font-mono text-sm font-black text-white leading-relaxed">
+                  Este site opera como um portal editorial. Não realizamos venda direta nem processamos pagamentos. Ao clicar em nossas recomendações, você é encaminhada à plataforma oficial (Mercado Livre, SHEIN, TikTok Shop), onde a compra é concluída.
+                </p>
+              </div>
+
+              <div className="pt-3 border-t-2 border-black/40">
+                <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit mb-1">
+                  [ CONTATO DIRETO ]
+                </span>
+                <Link
+                  href="mailto:zanvexistech@gmail.com"
+                  className="font-mono text-base font-black text-white underline underline-offset-4 block break-all pt-1"
+                >
+                  zanvexistech@gmail.com
+                </Link>
+                <span className="font-mono text-xs font-black text-white uppercase block mt-1">
+                  São Paulo / SP — Operação Global
+                </span>
+              </div>
+            </div>
+
+            {/* Redes Sociais */}
+            <div className="pt-4 border-t-2 border-black/40">
+              <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit mb-3">
+                [ CANAIS OFICIAIS ]
+              </span>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="https://t.me/vinisilva_10"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full border-2 border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[3px_3px_0px_#000000]"
+                  aria-label="Telegram"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.98 1.26-5.59 3.71-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.05-.49-.82-.27-1.47-.41-1.42-.87.03-.24.3-.49.8-.75 3.12-1.36 5.21-2.26 6.26-2.7 2.97-1.24 3.59-1.46 4.01-1.47.09 0 .28.02.41.11.11.08.14.2.16.29.01.07.02.21.01.35z" />
+                  </svg>
+                </Link>
+                <Link
+                  href="https://github.com/Vinisilva0010"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full border-2 border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[3px_3px_0px_#000000]"
+                  aria-label="GitHub"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* COLUNA 2: CATEGORIAS (3/12) */}
+          <div className="lg:col-span-3 rounded-3xl border-4 border-black bg-[#59abf8] p-6 sm:p-8 shadow-[8px_8px_0px_#000000]">
+            <div className="border-b-2 border-black/40 pb-3 mb-4">
+              <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit">
+                [ NAVEGAÇÃO ]
+              </span>
+              <h3 className="font-title text-2xl font-black uppercase text-white tracking-tight mt-2">
+                Categorias
+              </h3>
+            </div>
+            <ul className="space-y-3 font-mono text-sm font-black text-white">
+              <li>
+                <Link href="/maquiagem" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Batons & Maquiagem
+                </Link>
+              </li>
+              <li>
+                <Link href="/acessorios/bolsas-femininas" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Bolsas Femininas
+                </Link>
+              </li>
+              <li>
+                <Link href="/acessorios/brincos-colares" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Brincos & Semijoias
+                </Link>
+              </li>
+              <li>
+                <Link href="/skincare" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Skincare & Cuidados
+                </Link>
+              </li>
+              <li>
+                <Link href="/cabelo-unhas" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Cabelo & Ferramentas
+                </Link>
+              </li>
+              <li>
+                <Link href="/presentes" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Ideias de Presentes
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* COLUNA 3: CURADORIA & GUIAS (3/12) */}
+          <div className="lg:col-span-3 rounded-3xl border-4 border-black bg-[#59abf8] p-6 sm:p-8 shadow-[8px_8px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="border-b-2 border-black/40 pb-3 mb-4">
+                <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit">
+                  [ CONTEÚDO ]
+                </span>
+                <h3 className="font-title text-2xl font-black uppercase text-white tracking-tight mt-2">
+                  Guias & Achados
+                </h3>
+              </div>
+              <ul className="space-y-3 font-mono text-sm font-black text-white mb-6">
+                <li>
+                  <Link href="/achados-ate-50" className="hover:underline flex items-center gap-1.5">
+                    <span>›</span> Achados até R$ 50
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mais-bem-avaliados" className="hover:underline flex items-center gap-1.5">
+                    <span>›</span> Mais Bem Avaliados
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="hover:underline flex items-center gap-1.5">
+                    <span>›</span> Blog & Comparativos
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sobre" className="hover:underline flex items-center gap-1.5">
+                    <span>›</span> Metodologia de Escolha
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-4 border-t-2 border-black/40">
+              <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit mb-1">
+                [ MARKETPLACES ]
+              </span>
+              <p className="font-mono text-xs font-black text-white">
+                Mercado Livre • SHEIN • TikTok Shop
+              </p>
+            </div>
+          </div>
+
+          {/* COLUNA 4: INSTITUCIONAL & CONTATO (2/12) */}
+          <div className="lg:col-span-2 rounded-3xl border-4 border-black bg-[#59abf8] p-6 sm:p-8 shadow-[8px_8px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="border-b-2 border-black/40 pb-3 mb-4">
+                <span className="font-mono text-xs font-black uppercase text-[#970797] bg-white px-2 py-0.5 rounded tracking-widest block w-fit">
+                  [ AJUDA ]
+                </span>
+                <h3 className="font-title text-2xl font-black uppercase text-white tracking-tight mt-2">
+                  Suporte
+                </h3>
+              </div>
+              <ul className="space-y-3 font-mono text-sm font-black text-white">
+                <li>
+                  <Link href="/sobre" className="hover:underline block">
+                    Sobre Nós
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/politica-de-privacidade" className="hover:underline block">
+                    Privacidade
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/termos-de-uso" className="hover:underline block">
+                    Termos de Uso
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-6">
+              <Link
+                href="/contato"
+                className="inline-flex items-center justify-center w-full font-mono text-xs font-black uppercase bg-[#970797] text-white border-2 border-black p-3 rounded-xl shadow-[3px_3px_0px_#000000] hover:bg-white hover:text-black active:translate-y-0.5 transition-all text-center"
+              >
+                Contato [›]
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* RODAPÉ INFERIOR */}
+        <div className="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-mono text-white font-black">
+          <div className="text-center md:text-left leading-relaxed">
+            © 2026 (nomeloja). Desenvolvido por{" "}
+            <strong className="text-black bg-white px-1.5 py-0.5 rounded">Zanvexis Tecnologia</strong>. Todos os direitos reservados.
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
+            <Link href="/politica-de-privacidade" className="hover:underline">
+              Privacidade
+            </Link>
+            <span>•</span>
+            <Link href="/termos-de-uso" className="hover:underline">
+              Termos & Afiliados
+            </Link>
+            <span>•</span>
+            <Link href="/sobre" className="hover:underline">
+              Como Funciona
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

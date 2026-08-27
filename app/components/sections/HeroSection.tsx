@@ -149,6 +149,10 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
+
+
+
+
 function ThreeCardSlider({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -156,7 +160,9 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
   const touchEndX = useRef<number | null>(null);
 
   const total = products.length;
-  const cardsPerView = total < 4 ? total : 4; // mostra no máximo 4, ou menos se tiver menos produtos
+
+  // mobile: 1 card, tablet: 2, desktop: 4
+  const cardsPerView = total === 1 ? 1 : typeof window !== "undefined" && window.innerWidth < 640 ? 1 : total < 3 ? 2 : 4;
 
   useEffect(() => {
     if (total <= 1 || isPaused) return;
@@ -192,6 +198,7 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
+    e.preventDefault();
   };
 
   const handleTouchEnd = () => {
@@ -215,7 +222,7 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* BOTÃO ESQUERDA */}
+      {/* BOTÕES */}
       <button
         onClick={handlePrev}
         className="absolute left-2 sm:left-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
@@ -229,7 +236,6 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
         ‹
       </button>
 
-      {/* BOTÃO DIREITA */}
       <button
         onClick={handleNext}
         className="absolute right-2 sm:right-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
@@ -248,13 +254,13 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
         <div
           className="flex transition-transform duration-700 ease-in-out gap-4 sm:gap-6"
           style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
+            transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
           }}
         >
           {products.map((product) => (
             <div
               key={product.id}
-              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)] shrink-0 flex-grow-0"
+              className="w-[calc(100%-16px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)] shrink-0 flex-grow-0"
             >
               <ProductCard product={product} />
             </div>
@@ -264,6 +270,9 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
     </div>
   );
 }
+
+
+
 
       
 

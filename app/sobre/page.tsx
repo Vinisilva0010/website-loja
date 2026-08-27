@@ -1,153 +1,136 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/app/components/sections/Footer";
-import { Calculator, Truck, Store, Scale, Github, Linkedin, ExternalLink } from "lucide-react";
+import { Search, ShieldCheck, Scale, Sparkles, Github, Linkedin, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Sobre | Metodologia e Diretrizes Operacionais de Vendas Online",
+  title: "Sobre Nós | Metodologia Editorial e Curadoria Independente",
   description:
-    "Conheça a metodologia técnica, as diretrizes de cálculo de margem e o propósito por trás da nossa base de conhecimento para sellers e operações de e-commerce no Brasil.",
+    "Conheça a metodologia de seleção, os critérios de comparação e o compromisso de transparência editorial da (nomeloja) na indicação de produtos femininos em marketplaces oficiais.",
 };
 
 export default function SobrePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#f7f3f1] text-black">
+    <div className="flex flex-col min-h-screen bg-[#fcddfc] text-black">
       <main className="flex-grow pt-32 pb-24 px-4 sm:px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* HEADER SECTION */}
-          <header className="mb-20 border-b-4 border-black pb-12">
-            <div className="inline-block border-[3px] border-black bg-[#8e8ef7] px-4 py-1 mb-4 shadow-[4px_4px_0px_#000000]">
-              <span className="font-mono text-xs font-black text-black uppercase tracking-widest">
-                [ DIRETRIZES TÉCNICAS // ENGENHARIA OPERACIONAL ]
+          {/* HEADER PRINCIPAL */}
+          <header className="mb-16 border-b-[6px] border-[#970797] pb-12">
+            <div className="inline-block border-[4px] border-black bg-[#970797] px-4 py-1.5 mb-4 shadow-[4px_4px_0px_#000000]">
+              <span className="font-mono text-sm font-black text-white uppercase tracking-widest">
+                [ METODOLOGIA EDITORIAL // CURADORIA INDEPENDENTE ]
               </span>
             </div>
+
             <h1
               className="font-title text-5xl sm:text-7xl md:text-8xl font-black uppercase text-black leading-none mb-6"
               style={{
-                WebkitTextStroke: "2px #000000",
-                textShadow: "5px 5px 0px #8e8ef7, 9px 9px 0px rgba(0,0,0,0.15)",
+                textShadow: "5px 5px 0px #59abf8",
               }}
             >
               Sobre a
               <br />
-              Operação
+              (nomeloja)
             </h1>
-            <p className="font-mono text-xs sm:text-base uppercase tracking-widest font-black text-[#56585a]">
-              [ MATEMÁTICA FINANCEIRA, LOGÍSTICA DE CAMPO & CONFORMIDADE FISCAL ]
+
+            <p className="font-sans text-lg sm:text-2xl uppercase tracking-wider font-black text-black max-w-4xl leading-tight">
+              Pesquisa detalhada, comparação honesta de produtos femininos e encaminhamento seguro para marketplaces oficiais.
             </p>
           </header>
 
-          {/* PROPÓSITO & METODOLOGIA */}
-          <section className="mb-20 rounded-3xl border-4 border-black bg-white p-8 sm:p-12 shadow-[10px_10px_0px_#000000]">
-            <h2 className="font-title text-3xl sm:text-4xl font-black uppercase text-black mb-8 flex items-center gap-3">
-              <span className="w-4 h-4 bg-[#8e8ef7] border-2 border-black rotate-45" />
-              Quem Somos e Como Operamos
+          {/* PROPÓSITO & MODELO */}
+          <section className="mb-16 rounded-3xl border-[4px] border-black bg-white p-8 sm:p-12 shadow-[10px_10px_0px_#000000]">
+            <h2 className="font-title text-3xl sm:text-5xl font-black uppercase text-black mb-8 flex items-center gap-3">
+              <span className="w-5 h-5 bg-[#970797] border-2 border-black rotate-45 shrink-0" />
+              Quem Somos e Nosso Modelo de Trabalho
             </h2>
 
-            <div className="space-y-6 font-mono text-xs sm:text-sm font-bold text-[#454749] leading-relaxed">
+            <div className="space-y-6 font-sans text-base sm:text-xl font-black text-black leading-relaxed">
               <p>
-                Este portal foi estruturado como uma base técnica e independente para
-                vendedores, empreendedores e operadores de e-commerce que comercializam produtos
-                físicos no Brasil, seja via marketplaces (TikTok Shop, Shopee, Mercado Livre) ou
-                por meio de canais próprios.
+                A (nomeloja) é uma plataforma editorial independente de descoberta, comparação e curadoria de produtos femininos — abrangendo maquiagem, cosméticos, bolsas, acessórios e itens de cuidados pessoais.
               </p>
 
               <p>
-                A maioria das operações fecha as portas nos primeiros meses não por falta de
-                vendas, mas por erro de cálculo: comissões cobradas sobre a receita bruta, taxas
-                fixas que devoram a margem de itens baratos, frete mal cubado e penalidades de SLA
-                que destroem a autoridade da conta no algoritmo.
+                Nosso portal não funciona como uma loja virtual tradicional com checkout próprio: não cobramos pagamentos, não processamos fretes e não intermediamos faturamento. Nossa missão é filtrar o excesso de anúncios da internet, organizar fichas técnicas, destacar prós e contras reais e guiar sua decisão antes do clique.
               </p>
 
               <p>
-                Nossa proposta é eliminar o "achismo" da gestão de vendas online. Todos os guias,
-                simulações e ferramentas disponibilizados aqui são orientados por três princípios
-                inegociáveis: matemática financeira real travada no lucro líquido, cumprimento
-                estrito de prazos logísticos e conformidade legal com a legislação fiscal e o
-                Código de Defesa do Consumidor.
+                Ao escolher um item em nossas seleções, você é direcionada de forma transparente para a página oficial do produto em grandes plataformas (como Mercado Livre, SHEIN ou TikTok Shop), onde a compra, o pagamento protegido e a entrega são concluídos diretamente com os vendedores oficiais.
               </p>
             </div>
           </section>
 
-          {/* 4 PILARES DE ATUAÇÃO */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-28">
-            {/* PILAR 1: PRECIFICAÇÃO */}
-            <div className="rounded-3xl border-4 border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#8e8ef7] flex flex-col justify-between">
+          {/* 4 PILARES DE CURADORIA */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            {/* PILAR 1: ESPECIFICAÇÕES */}
+            <div className="rounded-3xl border-[4px] border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#970797] flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-black text-[#8e8ef7] border-2 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
-                  <Calculator size={28} />
+                <div className="w-16 h-16 rounded-2xl bg-[#970797] text-white border-[3px] border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
+                  <Search size={32} />
                 </div>
-                <h3 className="font-title text-2xl font-black uppercase text-black mb-4">
-                  Precificação & Margem Real
+                <h3 className="font-title text-2xl sm:text-3xl font-black uppercase text-black mb-4">
+                  Análise Técnica de Especificações
                 </h3>
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
-                  Aplicação da fórmula do divisor de margem para travar o lucro nominal por
-                  peça. Desconto preciso de comissões, taxas fixas por faixa de preço, insumos de
-                  embalagem, impostos e fundo de reserva para devoluções.
+                <p className="font-sans text-base sm:text-lg font-black text-black leading-relaxed">
+                  Avaliamos dimensões reais, medidas de compartimentos de bolsas, tipos de fecho, composição de tecidos e fórmulas declaradas pelos fabricantes para evitar surpresas na entrega.
                 </p>
               </div>
             </div>
 
-            {/* PILAR 2: LOGÍSTICA */}
-            <div className="rounded-3xl border-4 border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#8e8ef7] flex flex-col justify-between">
+            {/* PILAR 2: REPUTAÇÃO */}
+            <div className="rounded-3xl border-[4px] border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#970797] flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-black text-[#8e8ef7] border-2 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
-                  <Truck size={28} />
+                <div className="w-16 h-16 rounded-2xl bg-[#59abf8] text-black border-[3px] border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
+                  <Scale size={32} />
                 </div>
-                <h3 className="font-title text-2xl font-black uppercase text-black mb-4">
-                  Logística & SLA de Despacho
+                <h3 className="font-title text-2xl sm:text-3xl font-black uppercase text-black mb-4">
+                  Reputação & Avaliações Reais
                 </h3>
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
-                  Estruturação de rotinas em lote, postagens no modelo Drop-off dentro do prazo em
-                  dias úteis e controle da taxa de envio atrasado abaixo de 4% para manter a
-                  reputação da loja máxima no algoritmo.
+                <p className="font-sans text-base sm:text-lg font-black text-black leading-relaxed">
+                  Cruzamos o histórico dos lojistas parceiros, volume de reclamações e comentários verificados de compradores para recomendar apenas itens com consistência comprovada de envio e qualidade.
                 </p>
               </div>
             </div>
 
-            {/* PILAR 3: CANAIS & MULTICANAL */}
-            <div className="rounded-3xl border-4 border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#8e8ef7] flex flex-col justify-between">
+            {/* PILAR 3: TRANSPARÊNCIA */}
+            <div className="rounded-3xl border-[4px] border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#970797] flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-black text-[#8e8ef7] border-2 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
-                  <Store size={28} />
+                <div className="w-16 h-16 rounded-2xl bg-[#970797] text-white border-[3px] border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
+                  <ShieldCheck size={32} />
                 </div>
-                <h3 className="font-title text-2xl font-black uppercase text-black mb-4">
-                  Estratégia Multicanal & ERP
+                <h3 className="font-title text-2xl sm:text-3xl font-black uppercase text-black mb-4">
+                  Transparência de Afiliados
                 </h3>
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
-                  Operação simultânea em TikTok Shop, Shopee, Mercado Livre e lojas virtuais
-                  (Nuvemshop/Tray). Sincronização centralizada de saldo de estoque para evitar
-                  cancelamentos forçados por falta de produto físico.
+                <p className="font-sans text-base sm:text-lg font-black text-black leading-relaxed">
+                  Somos remunerados por comissões de afiliados quando uma compra é finalizada através dos nossos links recomendados, sem nenhum acréscimo de valor ou cobrança extra para o usuário final.
                 </p>
               </div>
             </div>
 
-            {/* PILAR 4: FISCAL & JURÍDICO */}
-            <div className="rounded-3xl border-4 border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#8e8ef7] flex flex-col justify-between">
+            {/* PILAR 4: HONESTIDADE EDITORIAL */}
+            <div className="rounded-3xl border-[4px] border-black bg-white p-8 sm:p-10 shadow-[8px_8px_0px_#970797] flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-black text-[#8e8ef7] border-2 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
-                  <Scale size={28} />
+                <div className="w-16 h-16 rounded-2xl bg-[#59abf8] text-black border-[3px] border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000000]">
+                  <Sparkles size={32} />
                 </div>
-                <h3 className="font-title text-2xl font-black uppercase text-black mb-4">
-                  Conformidade Fiscal & CDC
+                <h3 className="font-title text-2xl sm:text-3xl font-black uppercase text-black mb-4">
+                  Honestidade Editorial
                 </h3>
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
-                  Gestão do teto do MEI e transição planejada para ME no Simples Nacional.
-                  Exigência de Inscrição Estadual, emissão de NF-e e aplicação correta do direito
-                  de arrependimento e trocas segundo o CDC.
+                <p className="font-sans text-base sm:text-lg font-black text-black leading-relaxed">
+                  Não inventamos notas falsas nem alegamos testes laboratoriais físicos quando a análise é puramente documental e comparativa. Toda limitação do produto é apontada com clareza nos pontos de atenção.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* PERFIL DO RESPONSÁVEL TÉCNICO */}
+          {/* RESPONSÁVEL TÉCNICO & INFRAESTRUTURA */}
           <section className="mb-12">
-            <div className="rounded-3xl border-4 border-black bg-white flex flex-col lg:flex-row shadow-[12px_12px_0px_#000000] overflow-hidden">
+            <div className="rounded-3xl border-[4px] border-black bg-white flex flex-col lg:flex-row shadow-[12px_12px_0px_#000000] overflow-hidden">
               {/* IMAGEM */}
-              <div className="lg:w-1/3 border-b-4 lg:border-b-0 lg:border-r-4 border-black bg-[#2b2d2f] flex items-center justify-center overflow-hidden min-h-[320px]">
+              <div className="lg:w-1/3 border-b-[4px] lg:border-b-0 lg:border-r-[4px] border-black bg-[#59abf8] flex items-center justify-center overflow-hidden min-h-[320px]">
                 <img
                   src="/images/foto.png"
-                  alt="Responsável Operacional"
+                  alt="Responsável Técnico e Editorial"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                 />
               </div>
@@ -155,43 +138,42 @@ export default function SobrePage() {
               {/* CONTEÚDO */}
               <div className="lg:w-2/3 p-8 sm:p-12 flex flex-col justify-between">
                 <div>
-                  <div className="inline-block border-2 border-black bg-[#8e8ef7] px-3 py-0.5 mb-3 shadow-[2px_2px_0px_#000000]">
-                    <span className="font-mono text-[10px] font-black text-black uppercase tracking-wider">
-                      DESENVOLVIMENTO & ARQUITETURA
+                  <div className="inline-block border-[2px] border-black bg-[#970797] px-3 py-1 mb-3 shadow-[2px_2px_0px_#000000]">
+                    <span className="font-mono text-xs font-black text-white uppercase tracking-wider">
+                      ENGENHARIA DE DADOS & CURADORIA
                     </span>
                   </div>
                   <h3 className="font-title text-3xl sm:text-5xl font-black uppercase text-black mb-6">
-                    Engenharia Operacional
+                    Estrutura & Tecnologia
                   </h3>
-                  <p className="font-mono text-xs sm:text-sm font-bold text-[#454749] leading-relaxed mb-8">
-                    Desenvolvedor de software focado em sistemas de alto desempenho, automações e
-                    estruturação técnica de processos de comércio eletrônico. Acreditamos que a
-                    eficiência de um negócio digital decorre de processos repetíveis, integração
-                    sólida de APIs e controle rígido de margem e estoque.
+                  <p className="font-sans text-base sm:text-xl font-black text-black leading-relaxed mb-8">
+                    Mantido e arquitetado pela Zanvexis Tecnologia, o portal foi construído com foco em alta velocidade de carregamento, semântica para motores de busca e crawlers de IA, e uma infraestrutura transparente para navegação limpa e direta.
                   </p>
                 </div>
 
                 {/* LINKS EXTERNOS */}
-                <div className="flex flex-wrap gap-4 pt-6 border-t-2 border-black/15">
+                <div className="flex flex-wrap gap-4 pt-6 border-t-[3px] border-black/20">
                   <Link
                     href="https://github.com/vinisilva0010"
                     target="_blank"
-                    className="flex items-center gap-2 border-2 border-black bg-[#f7f3f1] px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase text-black hover:bg-[#8e8ef7] transition-all shadow-[3px_3px_0px_#000000] active:translate-y-0.5"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 border-[3px] border-black bg-[#fcddfc] px-6 py-3 rounded-xl font-mono text-sm font-black uppercase text-black hover:bg-[#970797] hover:text-white transition-all shadow-[3px_3px_0px_#000000] active:translate-y-0.5"
                   >
-                    <Github size={16} /> GITHUB
+                    <Github size={18} /> GITHUB
                   </Link>
                   <Link
                     href="https://www.linkedin.com/in/vinicius-pontual-dev"
                     target="_blank"
-                    className="flex items-center gap-2 border-2 border-black bg-[#f7f3f1] px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase text-black hover:bg-[#8e8ef7] transition-all shadow-[3px_3px_0px_#000000] active:translate-y-0.5"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 border-[3px] border-black bg-[#fcddfc] px-6 py-3 rounded-xl font-mono text-sm font-black uppercase text-black hover:bg-[#970797] hover:text-white transition-all shadow-[3px_3px_0px_#000000] active:translate-y-0.5"
                   >
-                    <Linkedin size={16} /> LINKEDIN
+                    <Linkedin size={18} /> LINKEDIN
                   </Link>
                   <Link
                     href="/contato"
-                    className="flex items-center gap-2 border-2 border-black bg-black text-[#f7f3f1] px-5 py-2.5 rounded-xl font-mono text-xs font-black uppercase hover:bg-[#8e8ef7] hover:text-black transition-all shadow-[3px_3px_0px_#8e8ef7] active:translate-y-0.5"
+                    className="flex items-center gap-2 border-[3px] border-black bg-[#970797] text-white px-6 py-3 rounded-xl font-mono text-sm font-black uppercase hover:bg-[#59abf8] hover:text-black transition-all shadow-[3px_3px_0px_#000000] active:translate-y-0.5"
                   >
-                    FALAR CONOSCO <ExternalLink size={14} />
+                    FALE CONOSCO <ExternalLink size={16} />
                   </Link>
                 </div>
               </div>

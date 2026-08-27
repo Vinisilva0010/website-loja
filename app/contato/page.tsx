@@ -30,13 +30,13 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f7f3f1] text-black">
+    <div className="flex flex-col min-h-screen bg-[#fcddfc] text-black">
       <main className="flex-grow pt-32 pb-24 px-4 sm:px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Coluna Esquerda: Informações & Contato Direto */}
           <div className="flex flex-col justify-start">
-            <div className="inline-block border-[3px] border-black bg-[#8e8ef7] px-4 py-1 mb-4 shadow-[4px_4px_0px_#000000] self-start">
-              <span className="font-mono text-xs font-black text-black uppercase tracking-widest">
+            <div className="inline-block border-[4px] border-black bg-[#970797] px-4 py-1.5 mb-4 shadow-[4px_4px_0px_#000000] self-start">
+              <span className="font-mono text-xs sm:text-sm font-black text-white uppercase tracking-widest">
                 [ CANAL DIRETO // SUPORTE & PARCERIAS ]
               </span>
             </div>
@@ -44,8 +44,7 @@ export default function ContactPage() {
             <h1
               className="font-title text-4xl sm:text-6xl md:text-7xl font-black uppercase text-black leading-none mb-6"
               style={{
-                WebkitTextStroke: "2px #000000",
-                textShadow: "4px 4px 0px #8e8ef7, 8px 8px 0px rgba(0,0,0,0.15)",
+                textShadow: "4px 4px 0px #59abf8",
               }}
             >
               Fale com a
@@ -53,24 +52,22 @@ export default function ContactPage() {
               Operação
             </h1>
 
-            <p className="font-mono text-xs sm:text-sm font-bold text-[#454749] leading-relaxed max-w-lg mb-10">
-              Envie sua dúvida sobre precificação, logística, integração de marketplaces,
-              regras fiscais ou propostas de parceria. Analisamos cada caso para retornar
-              com o direcionamento prático adequado.
+            <p className="font-sans text-base sm:text-lg font-black text-black leading-relaxed max-w-lg mb-10">
+              Envie sua dúvida sobre links de afiliados, sugestões de produtos femininos para curadoria, parcerias com marcas ou suporte geral. Analisamos cada mensagem para retornar com agilidade.
             </p>
 
             {/* Painel de Metadados de Contato */}
-            <div className="border-l-4 border-black pl-6 flex flex-col gap-6 mb-12 bg-white p-6 rounded-r-2xl border-2 border-black shadow-[6px_6px_0px_#8e8ef7]">
+            <div className="border-l-[6px] border-[#970797] pl-6 flex flex-col gap-6 mb-12 bg-white p-6 rounded-r-2xl border-[4px] border-black shadow-[6px_6px_0px_#000000]">
               <div>
-                <span className="font-mono text-[10px] text-[#56585a] font-black uppercase tracking-wider block mb-1">
-                  E-MAIL PRINCIPAL
+                <span className="font-mono text-xs text-[#970797] font-black uppercase tracking-wider block mb-1">
+                  E-MAIL OFICIAL
                 </span>
                 <span className="font-mono text-base sm:text-lg text-black font-black">
                   zanvexistech@gmail.com
                 </span>
               </div>
               <div>
-                <span className="font-mono text-[10px] text-[#56585a] font-black uppercase tracking-wider block mb-1">
+                <span className="font-mono text-xs text-[#970797] font-black uppercase tracking-wider block mb-1">
                   PRAZO DE RESPOSTA (SLA)
                 </span>
                 <span className="font-mono text-base sm:text-lg text-black font-black">
@@ -78,10 +75,10 @@ export default function ContactPage() {
                 </span>
               </div>
               <div>
-                <span className="font-mono text-[10px] text-[#56585a] font-black uppercase tracking-wider block mb-1">
+                <span className="font-mono text-xs text-[#970797] font-black uppercase tracking-wider block mb-1">
                   BASE OPERACIONAL
                 </span>
-                <span className="font-mono text-xs sm:text-sm text-[#454749] font-bold">
+                <span className="font-mono text-sm text-black font-black">
                   SÃO PAULO / SP — BRASIL
                 </span>
               </div>
@@ -89,15 +86,15 @@ export default function ContactPage() {
 
             {/* Redes Sociais */}
             <div>
-              <span className="font-mono text-xs font-black uppercase tracking-widest text-black block mb-4">
-                REDES & ATENDIMENTO DIRETO
+              <span className="font-mono text-sm font-black uppercase tracking-widest text-black block mb-4">
+                CANAIS & ATENDIMENTO DIRETO
               </span>
               <div className="flex flex-wrap gap-4">
                 {/* LINKEDIN */}
                 <Link
                   href="https://www.linkedin.com/in/vinicius-pontual-dev"
                   target="_blank"
-                  className="w-14 h-14 rounded-2xl border-4 border-black bg-white text-black flex items-center justify-center hover:bg-[#8e8ef7] hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
+                  className="w-14 h-14 rounded-2xl border-[4px] border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
                   title="LinkedIn"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -109,7 +106,7 @@ export default function ContactPage() {
                 <Link
                   href="https://discord.com/users/vini0010"
                   target="_blank"
-                  className="w-14 h-14 rounded-2xl border-4 border-black bg-white text-black flex items-center justify-center hover:bg-[#8e8ef7] hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
+                  className="w-14 h-14 rounded-2xl border-[4px] border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
                   title="Discord"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -121,7 +118,7 @@ export default function ContactPage() {
                 <Link
                   href="https://t.me/vinisilva_10"
                   target="_blank"
-                  className="w-14 h-14 rounded-2xl border-4 border-black bg-white text-black flex items-center justify-center hover:bg-[#8e8ef7] hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
+                  className="w-14 h-14 rounded-2xl border-[4px] border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
                   title="Telegram"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -132,7 +129,7 @@ export default function ContactPage() {
                 {/* EMAIL */}
                 <Link
                   href="mailto:zanvexistech@gmail.com"
-                  className="w-14 h-14 rounded-2xl border-4 border-black bg-white text-black flex items-center justify-center hover:bg-[#8e8ef7] hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
+                  className="w-14 h-14 rounded-2xl border-[4px] border-black bg-white text-black flex items-center justify-center hover:bg-[#970797] hover:text-white hover:-translate-y-1 transition-all shadow-[4px_4px_0px_#000000]"
                   title="E-mail"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -144,48 +141,48 @@ export default function ContactPage() {
           </div>
 
           {/* Coluna Direita: Formulário Operacional */}
-          <div className="rounded-3xl border-4 border-black bg-white p-6 sm:p-10 shadow-[10px_10px_0px_#8e8ef7]">
-            <div className="flex justify-between items-center border-b-2 border-black/15 pb-4 mb-8">
+          <div className="rounded-3xl border-[4px] border-black bg-white p-6 sm:p-10 shadow-[10px_10px_0px_#970797]">
+            <div className="flex justify-between items-center border-b-[3px] border-black/15 pb-4 mb-8">
               <span className="font-mono text-sm text-black uppercase font-black tracking-wider">
                 [ FORMULÁRIO DE CONTATO ]
               </span>
               <div className="flex items-center gap-2">
                 <div
-                  className={`w-3 h-3 rounded-full border border-black ${
-                    isPending ? "bg-[#8e8ef7] animate-ping" : "bg-emerald-500"
+                  className={`w-3 h-3 rounded-full border-2 border-black ${
+                    isPending ? "bg-[#970797] animate-ping" : "bg-emerald-500"
                   }`}
                 />
-                <span className="font-mono text-[11px] text-[#56585a] font-bold uppercase">
+                <span className="font-mono text-xs text-black font-black uppercase">
                   {isPending ? "ENVIANDO..." : "ONLINE"}
                 </span>
               </div>
             </div>
 
             {formState?.status === "SUCCESS" ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center bg-[#f7f3f1] border-2 border-black rounded-2xl p-6">
-                <div className="w-16 h-16 rounded-full bg-[#8e8ef7] border-2 border-black flex items-center justify-center font-title text-2xl font-black mb-4 shadow-[4px_4px_0px_#000000]">
+              <div className="flex flex-col items-center justify-center py-12 text-center bg-[#fcddfc] border-[4px] border-black rounded-2xl p-6 shadow-[4px_4px_0px_#000000]">
+                <div className="w-16 h-16 rounded-full bg-[#970797] text-white border-[3px] border-black flex items-center justify-center font-title text-3xl font-black mb-4 shadow-[3px_3px_0px_#000000]">
                   ✓
                 </div>
                 <span className="font-title text-2xl text-black font-black mb-2 uppercase">
                   MENSAGEM RECEBIDA
                 </span>
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] max-w-sm leading-relaxed">
-                  Seus dados foram registrados com sucesso. Responderemos no canal informado dentro do nosso SLA.
+                <p className="font-sans text-sm font-black text-black max-w-sm leading-relaxed">
+                  Seus dados foram registrados com sucesso. Responderemos no canal informado dentro do nosso prazo de atendimento.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
                   <label className="font-mono text-xs text-black uppercase font-black">
-                    Nome / Loja / Operação
+                    Nome / Marca / Contato
                   </label>
                   <input
                     type="text"
                     name="entityId"
-                    placeholder="Ex: Carlos Silva ou Loja Varejo Express"
+                    placeholder="Ex: Ana Souza ou Marca Parceira"
                     required
                     disabled={isPending}
-                    className="w-full bg-[#f7f3f1] border-2 border-black p-3.5 rounded-xl font-mono text-black text-sm placeholder:text-[#8d9094] focus:bg-white focus:border-[#8e8ef7] focus:outline-none transition-colors disabled:opacity-50"
+                    className="w-full bg-[#fcddfc] border-[3px] border-black p-3.5 rounded-xl font-sans text-black font-black text-sm placeholder:text-black/50 focus:bg-white focus:border-[#970797] focus:outline-none transition-colors disabled:opacity-50"
                   />
                 </div>
 
@@ -199,7 +196,7 @@ export default function ContactPage() {
                     placeholder="seuemail@dominio.com ou (11) 99999-9999"
                     required
                     disabled={isPending}
-                    className="w-full bg-[#f7f3f1] border-2 border-black p-3.5 rounded-xl font-mono text-black text-sm placeholder:text-[#8d9094] focus:bg-white focus:border-[#8e8ef7] focus:outline-none transition-colors disabled:opacity-50"
+                    className="w-full bg-[#fcddfc] border-[3px] border-black p-3.5 rounded-xl font-sans text-black font-black text-sm placeholder:text-black/50 focus:bg-white focus:border-[#970797] focus:outline-none transition-colors disabled:opacity-50"
                   />
                 </div>
 
@@ -211,28 +208,14 @@ export default function ContactPage() {
                     name="operation"
                     required
                     disabled={isPending}
-                    className="w-full bg-[#f7f3f1] border-2 border-black p-3.5 rounded-xl font-mono text-black text-sm focus:bg-white focus:border-[#8e8ef7] focus:outline-none transition-colors appearance-none disabled:opacity-50 cursor-pointer"
+                    className="w-full bg-[#fcddfc] border-[3px] border-black p-3.5 rounded-xl font-sans text-black font-black text-sm focus:bg-white focus:border-[#970797] focus:outline-none transition-colors appearance-none disabled:opacity-50 cursor-pointer"
                   >
                     <option value="">[ SELECIONE O TEMA ]</option>
-                    <option value="Dúvida sobre Marketplaces">
-                      Operação em Marketplaces (TikTok Shop, Shopee, ML)
-                    </option>
-                    <option value="Cálculo de Precificação">
-                      Precificação, Comissões e Margem Líquida
-                    </option>
-                    <option value="Logística e Frete">
-                      Logística, Despacho e Redução de Frete
-                    </option>
-                    <option value="Tributação MEI / ME">
-                      Tributação, MEI vs ME e Emissão de Notas
-                    </option>
-                    <option value="Loja Virtual Própria">
-                      Criação de Loja Virtual (Nuvemshop, Shopify, etc.)
-                    </option>
-                    <option value="Parcerias e Fornecedores">
-                      Parcerias, Conteúdo ou Fornecimento
-                    </option>
-                    <option value="Outro">Outro / Dúvida Geral</option>
+                    <option value="Dúvida sobre Produtos e Links">Dúvida sobre Produtos ou Links de Afiliados</option>
+                    <option value="Sugestão de Curadoria">Sugestão de Novo Produto para Curadoria</option>
+                    <option value="Parceria Comercial">Parceria Comercial com Marcas</option>
+                    <option value="Problema Técnico">Reportar Problema Técnico no Site</option>
+                    <option value="Outro Assunto">Outro Assunto</option>
                   </select>
                 </div>
 
@@ -242,24 +225,24 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     name="payload"
-                    placeholder="Descreva o estágio da sua operação, o produto ou a dúvida específica..."
+                    placeholder="Escreva sua dúvida, sugestão ou detalhe da proposta..."
                     required
                     rows={4}
                     disabled={isPending}
-                    className="w-full bg-[#f7f3f1] border-2 border-black p-3.5 rounded-xl font-mono text-black text-sm placeholder:text-[#8d9094] focus:bg-white focus:border-[#8e8ef7] focus:outline-none transition-colors resize-none disabled:opacity-50"
+                    className="w-full bg-[#fcddfc] border-[3px] border-black p-3.5 rounded-xl font-sans text-black font-black text-sm placeholder:text-black/50 focus:bg-white focus:border-[#970797] focus:outline-none transition-colors resize-none disabled:opacity-50"
                   />
                 </div>
 
                 {formState?.status === "ERROR" && (
-                  <span className="font-mono text-xs text-red-600 font-bold uppercase">
-                    [ ERRO: {formState.message}. TENTE NOVAMENTE OU USE O E-MAIL DIRETO. ]
+                  <span className="font-mono text-xs text-red-700 font-black uppercase">
+                    [ ERRO NO ENVIO: {formState.message}. TENTE NOVAMENTE OU USE O E-MAIL DIRETO. ]
                   </span>
                 )}
 
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="mt-2 border-2 border-black bg-[#8e8ef7] text-black px-6 py-4 rounded-xl font-mono text-sm font-black uppercase tracking-wider transition-all shadow-[4px_4px_0px_#000000] hover:bg-black hover:text-[#f7f3f1] hover:shadow-none active:translate-y-1 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-500 disabled:shadow-none cursor-pointer"
+                  className="mt-2 border-[3px] border-black bg-[#970797] text-white px-6 py-4 rounded-xl font-mono text-sm font-black uppercase tracking-wider transition-all shadow-[4px_4px_0px_#000000] hover:bg-black hover:text-white hover:shadow-none active:translate-y-1 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-500 disabled:shadow-none cursor-pointer"
                 >
                   {isPending ? "PROCESSANDO ENVIO..." : "ENVIAR MENSAGEM →"}
                 </button>

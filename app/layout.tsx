@@ -25,11 +25,11 @@ const anton = Anton({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zanvendas.zanvexis.com/"),
   title: {
-    default: "Zanvendas | Guia & Operação de Vendas Online no Brasil",
-    template: "%s | Zanvendas",
+    default: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
+    template: "%s | (nomeloja)",
   },
   description:
-    "Base técnica para lojistas e sellers: fórmulas de precificação com divisor de margem, regras de envio nos marketplaces, tributação e conformidade fiscal.",
+    "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
   alternates: {
     canonical: "/",
   },
@@ -45,19 +45,19 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Zanvendas | Guia & Operação de Vendas Online no Brasil",
+    title: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
     description:
-      "Base técnica para lojistas e sellers: fórmulas de precificação com divisor de margem, regras de envio nos marketplaces, tributação e conformidade fiscal.",
+      "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
     url: "https://zanvendas.zanvexis.com/",
-    siteName: "Zanvendas",
+    siteName: "(nomeloja)",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zanvendas | Guia & Operação de Vendas Online no Brasil",
+    title: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
     description:
-      "Base técnica para lojistas e sellers: fórmulas de precificação com divisor de margem, regras de envio nos marketplaces, tributação e conformidade fiscal.",
+      "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
   },
 };
 
@@ -71,7 +71,7 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${inter.variable} ${firaCode.variable} ${anton.variable}`}
     >
-      <body className="min-h-screen bg-[#f7f3f1] font-body text-black antialiased selection:bg-[#8e8ef7] selection:text-black">
+      <body className="min-h-screen bg-[#fcddfc] font-body text-[#2B1B17] antialiased selection:bg-[#970797] selection:text-white">
         {/* Google Analytics (GA4) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MMEVPGHPK3"
@@ -88,6 +88,8 @@ export default function RootLayout({
 
         <Header />
         {children}
+
+        {/* Google AdSense */}
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1429963021988092"
           crossOrigin="anonymous"

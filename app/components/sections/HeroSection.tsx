@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import { getByCategory, type Product } from "@/lib/products";
 
@@ -152,26 +152,58 @@ function ProductCard({ product }: { product: Product }) {
 function ThreeCardSlider({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
-  // No PC mostramos 3; no tablet 2; no mobile 1
   const total = products.length;
+  const cardsPerView = total < 4 ? total : 4; // mostra no máximo 4, ou menos se tiver menos produtos
 
   useEffect(() => {
     if (total <= 1 || isPaused) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1 >= total ? 0 : prev + 1));
+      setCurrentIndex((prev) => {
+        const maxIndex = Math.max(0, total - cardsPerView);
+        return prev >= maxIndex ? 0 : prev + 1;
+      });
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [total, isPaused]);
+  }, [total, isPaused, cardsPerView]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? Math.max(0, total - 1) : prev - 1));
+    setCurrentIndex((prev) => {
+      const maxIndex = Math.max(0, total - cardsPerView);
+      return prev === 0 ? maxIndex : prev - 1;
+    });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1 >= total ? 0 : prev + 1));
+    setCurrentIndex((prev) => {
+      const maxIndex = Math.max(0, total - cardsPerView);
+      return prev >= maxIndex ? 0 : prev + 1;
+    });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    setIsPaused(false);
+    if (!touchStartX.current || !touchEndX.current) return;
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) handleNext();
+      else handlePrev();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
   };
 
   return (
@@ -179,13 +211,14 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
       className="relative w-full overflow-hidden px-4 sm:px-12 py-4"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      onTouchStart={() => setIsPaused(true)}
-      onTouchEnd={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {/* BOTÃO ESQUERDA */}
       <button
         onClick={handlePrev}
-        className="absolute left-2 sm:left-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90"
+        className="absolute left-2 sm:left-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
         style={{
           backgroundColor: "var(--color-support)",
           color: "var(--color-base)",
@@ -196,29 +229,10 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
         ‹
       </button>
 
-     {/* TRACK COM 3 CARDS EXATOS NO PC */}
-<div className="w-full overflow-hidden">
-  <div
-    className="flex transition-transform duration-700 ease-in-out gap-6"
-    style={{
-      transform: `translateX(-${currentIndex * 33.333}%)`,
-    }}
-  >
-    {products.map((product) => (
-      <div
-        key={product.id}
-        className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 flex-grow-0"
-      >
-        <ProductCard product={product} />
-      </div>
-    ))}
-  </div>
-</div>
-
       {/* BOTÃO DIREITA */}
       <button
         onClick={handleNext}
-        className="absolute right-2 sm:right-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90"
+        className="absolute right-2 sm:right-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
         style={{
           backgroundColor: "var(--color-support)",
           color: "var(--color-base)",
@@ -228,9 +242,30 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
       >
         ›
       </button>
+
+      {/* TRACK */}
+      <div className="w-full overflow-hidden">
+        <div
+          className="flex transition-transform duration-700 ease-in-out gap-4 sm:gap-6"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
+        >
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)] shrink-0 flex-grow-0"
+            >
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
+
+      
 
 function CategorySection({
   category,

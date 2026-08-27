@@ -223,11 +223,11 @@ body {
 
 /* globals.css — troca os valores dentro de :root */
 :root {
-  --color-base: #faf9e7;     /* papel creme vintage */
-  --color-text: #2B1B17;     /* tinta sépia escura */
-  --color-support: #fc62fc;  /* vinho — estrutura, bordas, preço */
-  --color-identity: #f8c620; /* dourado — selos, detalhes */
-  --color-shock: #59abf8;    /* terracota rosado — CTA/hover */
+  --color-base: #faf9e7;     
+  --color-text: #2B1B17;     
+  --color-support: #fc62fc;  
+  --color-identity: #f8c620; 
+  --color-shock: #59abf8;    
 }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }

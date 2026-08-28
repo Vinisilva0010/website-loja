@@ -5,22 +5,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://zanvendas.zanvexis.com";
   const lastModified = new Date();
 
-  // Páginas institucionais e principais
+  // Páginas institucionais e Home
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
       lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/services`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -49,29 +43,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
-  ] as const as MetadataRoute.Sitemap;
+  ];
 
-  // Guias operacionais e páginas de serviços (11 artigos pilares publicados)
-  const servicePages: MetadataRoute.Sitemap = [
-    "/services/comparativo-marketplaces-vender-online",
-    "/services/como-precificar-produtos-vender-online",
-    "/services/vender-no-mercado-livre",
-    "/services/vender-na-shopee",
-    "/services/vender-no-tiktok-shop",
-    "/services/tudo-sobre-frete-ecommerce",
-    "/services/logistica-envio-marketplaces",
-    "/services/direito-troca-devolucao-ecommerce",
-    "/services/mei-ou-me-vender-online",
-    "/services/negociar-fornecedores-revenda",
-    "/services/qual-sistema-loja-virtual-usar",
+  // Categorias de Produtos e Hubs de Curadoria
+  const categoryPages: MetadataRoute.Sitemap = [
+    "/maquiagem",
+    "/bolsas-femininas",
+    "/brincos-colares",
+    "/skincare",
+    "/cabelo-unhas",
+    "/presentes",
+    "/achados-ate-50",
+    "/mais-bem-avaliados",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified,
     changeFrequency: "weekly" as const,
-    priority: 0.85,
+    priority: 0.9,
   }));
 
-  // Artigos dinâmicos do diretório de posts (content/posts/*.mdx)
+  // Artigos do Blog (.mdx)
   const posts = getAllPosts();
   const blogPosts: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
@@ -84,5 +75,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages, ...blogPosts];
+  return [...staticPages, ...categoryPages, ...blogPosts];
 }

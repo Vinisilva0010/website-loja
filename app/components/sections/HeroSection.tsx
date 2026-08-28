@@ -337,7 +337,7 @@ export default function HeroSection() {
           <video
             className="absolute inset-0 w-full h-full object-cover"
             src="/videos/hero-loop1.mp4"
-            poster="/images/hero-poster.jpg"
+            
             autoPlay
             muted
             loop

@@ -1,13 +1,15 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://zanvendas.zanvexis.com";
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/"],
+      disallow: ["/api/", "/admin/", "/go/"],
     },
-    sitemap: "https://zanvendas.zanvexis.com/sitemap.xml",
-    host: "https://zanvendas.zanvexis.com",
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

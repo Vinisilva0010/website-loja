@@ -71,12 +71,13 @@ export default function Header() {
                 <span className="text-sm font-black transition-transform duration-200 group-hover:rotate-180">▼</span>
               </button>
 
-              <div className="absolute top-full left-0 w-88 bg-base border-[4px] border-[#970797] shadow-[6px_6px_0px_#970797] p-4 flex flex-col gap-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+              <div className="absolute top-full left-0 w-80 bg-base border-[4px] border-[#970797] shadow-[6px_6px_0px_#970797] p-4 flex flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
                 {categoriasLinks.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-mono text-base font-black text-[#970797] p-2.5 border-b-2 border-[#970797]/30 last:border-none uppercase"
+                    style={{ color: "#970797" }}
+                    className="font-mono text-base font-black p-2.5 border-b-2 border-[#970797]/30 last:border-none uppercase block hover:bg-[#970797] hover:!text-white transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -91,12 +92,13 @@ export default function Header() {
                 <span className="text-sm font-black transition-transform duration-200 group-hover:rotate-180">▼</span>
               </button>
 
-              <div className="absolute top-full left-0 w-88 bg-base border-[4px] border-[#970797] shadow-[6px_6px_0px_#970797] p-4 flex flex-col gap-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+              <div className="absolute top-full left-0 w-80 bg-base border-[4px] border-[#970797] shadow-[6px_6px_0px_#970797] p-4 flex flex-col gap-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
                 {curadoriaLinks.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-mono text-base font-black text-[#970797] p-2.5 border-b-2 border-[#970797]/30 last:border-none uppercase"
+                    style={{ color: "#970797" }}
+                    className="font-mono text-base font-black p-2.5 border-b-2 border-[#970797]/30 last:border-none uppercase block hover:bg-[#970797] hover:!text-white transition-colors"
                   >
                     {item.name}
                   </Link>

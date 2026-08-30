@@ -69,13 +69,18 @@ function ProductCard({ product }: { product: Product }) {
       target="_blank"
       rel="sponsored nofollow noopener noreferrer"
       aria-label={`Ver oferta de ${product.name} na ${platformLabel(product.platform)}`}
-      className="group flex flex-col gap-4 w-full h-full justify-between select-none"
+      className="group flex flex-col gap-2 sm:gap-4 w-full h-full justify-between select-none p-2 sm:p-3 rounded-2xl border-[3px] sm:border-[4px]"
+      style={{
+        backgroundColor: "var(--color-base)",
+        borderColor: "var(--color-identity)",
+        boxShadow: `0 4px 16px var(--color-identity)33`,
+      }}
     >
+      {/* IMAGEM + TAGS DE MARKETING */}
       <div
-        className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border-[5px] group-hover:-translate-y-1 transition-transform duration-200"
+        className="relative w-full aspect-square rounded-xl overflow-hidden border-[2px] sm:border-[4px] group-hover:-translate-y-0.5 transition-transform duration-200"
         style={{
           borderColor: "var(--color-identity)",
-          boxShadow: `0 0 25px var(--color-identity)66`,
           backgroundColor: "var(--color-base)",
         }}
       >
@@ -83,16 +88,29 @@ function ProductCard({ product }: { product: Product }) {
           src={product.image}
           alt={`${product.name} — ${product.description}`}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"
         />
+
+        {/* SELO FIXO DE OFERTA RELÂMPAGO */}
+        <span
+          className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black uppercase tracking-wider shadow-md"
+          style={{
+            backgroundColor: "#ffe600",
+            color: "#000000",
+            border: "1.5px solid #000000",
+          }}
+        >
+          ⚡ RELÂMPAGO
+        </span>
+
+        {/* SELO DE PORCENTAGEM DE DESCONTO */}
         {hasDiscount && (
           <span
-            className="absolute top-3 left-3 flex items-center justify-center w-14 h-14 rounded-full rotate-[-8deg] font-title font-black text-sm text-center leading-none shadow-md"
+            className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black"
             style={{
-              backgroundColor: "var(--color-shock)",
-              color: "var(--color-text)",
-              border: `2px solid var(--color-support)`,
+              backgroundColor: "var(--color-support)",
+              color: "var(--color-base)",
             }}
           >
             -{discountPercent}%
@@ -100,48 +118,59 @@ function ProductCard({ product }: { product: Product }) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 flex-grow justify-between">
-        <div className="flex flex-col gap-1">
+      {/* DETALHES DO PRODUTO */}
+      <div className="flex flex-col gap-1.5 flex-grow justify-between">
+        <div className="flex flex-col gap-0.5">
           <span
-            className="font-mono text-xs font-black uppercase tracking-wider"
+            className="font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider"
             style={{ color: "var(--color-support)" }}
           >
-            Disponível em: {platformLabel(product.platform)}
+            {platformLabel(product.platform)}
           </span>
 
           <h3
-            className="font-title text-xl sm:text-2xl font-black uppercase leading-tight line-clamp-1"
+            className="font-title text-sm sm:text-xl font-black uppercase leading-snug line-clamp-2"
             style={{ color: "var(--color-text)" }}
           >
             {product.name}
           </h3>
 
-          <p className="font-sans text-sm sm:text-base font-bold leading-snug line-clamp-2" style={{ color: "var(--color-text)" }}>
+          <p
+            className="font-sans text-xs sm:text-sm font-bold leading-tight line-clamp-1 opacity-80"
+            style={{ color: "var(--color-text)" }}
+          >
             {product.description}
           </p>
         </div>
 
-        <div className="pt-2">
-          <div className="flex items-baseline gap-3 flex-wrap">
+        {/* PREÇO E BOTÃO COMPACTO */}
+        <div className="pt-1">
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
             {hasDiscount && (
-              <span className="font-sans text-base font-bold line-through opacity-60" style={{ color: "var(--color-text)" }}>
+              <span
+                className="font-sans text-[11px] sm:text-sm font-bold line-through opacity-50"
+                style={{ color: "var(--color-text)" }}
+              >
                 R$ {product.originalPrice!.toFixed(2)}
               </span>
             )}
-            <span className="font-title text-2xl sm:text-3xl font-black" style={{ color: "var(--color-support)" }}>
+            <span
+              className="font-title text-base sm:text-2xl font-black leading-none"
+              style={{ color: "var(--color-support)" }}
+            >
               R$ {product.price.toFixed(2)}
             </span>
           </div>
 
           <span
-            className="mt-3 inline-block w-full text-center font-title text-base font-black uppercase tracking-wide rounded-lg py-3.5 group-hover:brightness-110 transition-all border-[3px]"
+            className="mt-2 inline-block w-full text-center font-title text-xs sm:text-sm font-black uppercase tracking-wide rounded-lg py-2 sm:py-2.5 group-hover:brightness-110 transition-all border-[2px]"
             style={{
               backgroundColor: "var(--color-support)",
               color: "var(--color-base)",
               borderColor: "var(--color-support)",
             }}
           >
-            Ver na {platformLabel(product.platform)} [›]
+            VER OFERTA [›]
           </span>
         </div>
       </div>
@@ -149,23 +178,33 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-
-
-
-
 function ThreeCardSlider({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(2);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
   const total = products.length;
 
-  // mobile: 1 card, tablet: 2, desktop: 4
-  const cardsPerView = total === 1 ? 1 : typeof window !== "undefined" && window.innerWidth < 640 ? 1 : total < 3 ? 2 : 4;
+  useEffect(() => {
+    const updateCards = () => {
+      if (window.innerWidth < 640) {
+        setCardsPerView(2); // 2 cards lado a lado no celular
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2);
+      } else {
+        setCardsPerView(4);
+      }
+    };
+
+    updateCards();
+    window.addEventListener("resize", updateCards);
+    return () => window.removeEventListener("resize", updateCards);
+  }, []);
 
   useEffect(() => {
-    if (total <= 1 || isPaused) return;
+    if (total <= cardsPerView || isPaused) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
@@ -198,14 +237,13 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
-    e.preventDefault();
   };
 
   const handleTouchEnd = () => {
     setIsPaused(false);
     if (!touchStartX.current || !touchEndX.current) return;
     const diff = touchStartX.current - touchEndX.current;
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > 40) {
       if (diff > 0) handleNext();
       else handlePrev();
     }
@@ -215,17 +253,17 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
 
   return (
     <div
-      className="relative w-full overflow-hidden px-4 sm:px-12 py-4"
+      className="relative w-full overflow-hidden px-2 sm:px-12 py-2"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* BOTÕES */}
+      {/* BOTÕES DE NAVEGAÇÃO */}
       <button
         onClick={handlePrev}
-        className="absolute left-2 sm:left-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
+        className="absolute left-0 sm:left-4 top-[45%] -translate-y-1/2 z-20 w-8 h-8 sm:w-12 sm:h-12 rounded-full border-[2px] sm:border-[3px] flex items-center justify-center font-mono text-lg sm:text-2xl font-black shadow-lg transition-transform active:scale-90"
         style={{
           backgroundColor: "var(--color-support)",
           color: "var(--color-base)",
@@ -238,7 +276,7 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
 
       <button
         onClick={handleNext}
-        className="absolute right-2 sm:right-4 top-[40%] -translate-y-1/2 z-20 w-12 h-12 rounded-full border-[3px] flex items-center justify-center font-mono text-2xl font-black shadow-lg transition-transform active:scale-90 touch-manipulation"
+        className="absolute right-0 sm:right-4 top-[45%] -translate-y-1/2 z-20 w-8 h-8 sm:w-12 sm:h-12 rounded-full border-[2px] sm:border-[3px] flex items-center justify-center font-mono text-lg sm:text-2xl font-black shadow-lg transition-transform active:scale-90"
         style={{
           backgroundColor: "var(--color-support)",
           color: "var(--color-base)",
@@ -249,10 +287,10 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
         ›
       </button>
 
-      {/* TRACK */}
+      {/* TRACK COM 2 COLUNAS NO MOBILE */}
       <div className="w-full overflow-hidden">
         <div
-          className="flex transition-transform duration-700 ease-in-out gap-4 sm:gap-6"
+          className="flex transition-transform duration-500 ease-out gap-2.5 sm:gap-6"
           style={{
             transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
           }}
@@ -260,7 +298,7 @@ function ThreeCardSlider({ products }: { products: Product[] }) {
           {products.map((product) => (
             <div
               key={product.id}
-              className="w-[calc(100%-16px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)] shrink-0 flex-grow-0"
+              className="w-[calc(50%-5px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 flex-grow-0"
             >
               <ProductCard product={product} />
             </div>

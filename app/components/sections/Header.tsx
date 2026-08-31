@@ -49,7 +49,7 @@ export default function Header() {
               className="font-title text-4xl md:text-5xl uppercase font-black text-[#970797] leading-none tracking-tight"
               style={{ textShadow: "3px 3px 0px #000000" }}
             >
-              (nomeloja)
+              L A R A
             </span>
           </Link>
 
@@ -157,7 +157,7 @@ export default function Header() {
                 className="font-title text-4xl md:text-6xl uppercase font-black text-[#970797]"
                 style={{ textShadow: "4px 4px 0px #000000" }}
               >
-                (nomeloja)
+                (Lara)
               </span>
             </Link>
 

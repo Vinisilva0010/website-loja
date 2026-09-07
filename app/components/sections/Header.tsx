@@ -49,7 +49,7 @@ export default function Header() {
               className="font-title text-4xl md:text-5xl uppercase font-black text-[#970797] leading-none tracking-tight"
               style={{ textShadow: "3px 3px 0px #000000" }}
             >
-              L A R A
+              s h e r y p i n k
             </span>
           </Link>
 
@@ -157,7 +157,7 @@ export default function Header() {
                 className="font-title text-4xl md:text-6xl uppercase font-black text-[#970797]"
                 style={{ textShadow: "4px 4px 0px #000000" }}
               >
-                (Lara)
+                (affascinante)
               </span>
             </Link>
 
@@ -242,7 +242,7 @@ export default function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className="text-[#970797] block py-1"
                   >
-                    SOBRE A (nomeloja)
+                    SOBRE A (cherry)
                   </Link>
                 </li>
                 <li>

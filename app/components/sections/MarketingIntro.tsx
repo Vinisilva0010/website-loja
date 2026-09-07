@@ -146,7 +146,7 @@ export default function MarketingIntro() {
       {/* TEXTO 1 */}
       <motion.div style={{ opacity: text1Opacity, y: text1Y }} className="absolute inset-0 z-20 flex items-center justify-center px-4">
         <h2 className="text-[var(--color-text)] text-5xl md:text-8xl lg:text-[9rem] font-black uppercase tracking-tighter text-center leading-[0.85]" style={{ fontFamily: "var(--font-bebas)" }}>
-          (nomeloja)<br />
+          sherypink<br />
           <span style={{ color: "var(--color-support)" }}>PRODUTOS CONFIÁVEIS.</span>
         </h2>
       </motion.div>

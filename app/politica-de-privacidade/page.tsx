@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Footer from "@/app/components/sections/Footer";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidade & LGPD | (nomeloja)",
+  title: "Política de Privacidade & LGPD | SHERYPINK",
   description:
-    "Política de Privacidade e Proteção de Dados (LGPD) referente à navegação, cookies, links de afiliados e formulários de contato no portal editorial (nomeloja).",
+    "Política de Privacidade e Proteção de Dados (LGPD) referente à navegação, cookies, links de afiliados e formulários de contato no portal editorial SHERYPINK.",
   alternates: {
     canonical: "/politica-de-privacidade",
   },
@@ -52,7 +52,7 @@ export default function PoliticaPrivacidadePage() {
                 1. Identificação e Natureza do Site
               </h2>
               <p>
-                A <strong>(nomeloja)</strong> é um ambiente de pesquisa editorial, comparativos e curadoria independente de produtos femininos. O portal <strong>não comercializa produtos diretamente</strong>, não possui carrinho de compras integrado e não coleta dados de pagamento, senhas bancárias ou números de cartão de crédito.
+                A <strong>SHERYPINK</strong> é um ambiente de pesquisa editorial, comparativos e curadoria independente de produtos femininos. O portal <strong>não comercializa produtos diretamente</strong>, não possui carrinho de compras integrado e não coleta dados de pagamento, senhas bancárias ou números de cartão de crédito.
               </p>
             </section>
 
@@ -85,7 +85,7 @@ export default function PoliticaPrivacidadePage() {
                 3. Cookies, Publicidade e Links de Afiliados
               </h2>
               <p className="mb-3">
-                Nosso portal utiliza links rastreados de programas de afiliados (Mercado Livre, SHEIN, TikTok Shop) e redes de anúncios autorizadas (Google AdSense):
+                Nosso portal utiliza links rastreados de programas de afiliados (Amazon, Shopee, Mercado Livre, TikTok Shop) e redes de anúncios autorizadas (Google AdSense):
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>

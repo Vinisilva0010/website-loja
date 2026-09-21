@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Footer from "@/app/components/sections/Footer";
 
 export const metadata: Metadata = {
-  title: "Termos de Uso & Transparência de Afiliados | (nomeloja)",
+  title: "Termos de Uso & Transparência de Afiliados | SHERYPINK",
   description:
-    "Termos de Uso, transparência de links afiliados e condições gerais de navegação do portal editorial (nomeloja).",
+    "Termos de Uso, transparência de links afiliados e condições gerais de navegação do portal editorial SHERYPINK.",
   alternates: {
     canonical: "/termos-de-uso",
   },
@@ -52,7 +52,7 @@ export default function TermosDeUsoPage() {
                 1. Natureza Editorial da Plataforma
               </h2>
               <p>
-                A <strong>(nomeloja)</strong> opera estritamente como um portal de curadoria, comparação e divulgação editorial de produtos femininos (maquiagem, beleza, bolsas, acessórios e itens de cuidados pessoais). A plataforma <strong>não é uma loja virtual</strong>, não processa transações financeiras, não cobra pagamentos de usuários e não realiza envio direto de mercadorias.
+                A <strong>SHERYPINK</strong> opera estritamente como um portal de curadoria, comparação e divulgação editorial de produtos femininos (maquiagem, beleza, bolsas, acessórios e itens de cuidados pessoais). A plataforma <strong>não é uma loja virtual</strong>, não processa transações financeiras, não cobra pagamentos de usuários e não realiza envio direto de mercadorias.
               </p>
             </section>
 
@@ -70,7 +70,7 @@ export default function TermosDeUsoPage() {
                   Diversos links disponibilizados em botões e cards de recomendação são links de afiliados rastreados.
                 </li>
                 <li>
-                  Ao clicar em um link e concluir uma compra no marketplace de destino (como Mercado Livre, SHEIN ou TikTok Shop), podemos receber uma comissão pela indicação.
+                  Ao clicar em um link e concluir uma compra no marketplace de destino (como Amazon, Shopee, Mercado Livre, TikTok Shop), podemos receber uma comissão pela indicação.
                 </li>
                 <li>
                   Essa remuneração não gera nenhum acréscimo de custo, taxa ou alteração de valor no preço final pago pelo usuário.
@@ -96,7 +96,7 @@ export default function TermosDeUsoPage() {
                 4. Responsabilidade sobre Compras e Logística
               </h2>
               <p>
-                O processamento de pagamento, faturamento, emissão de nota fiscal, separação de pedidos, prazos de frete, entrega e atendimento pós-venda são de responsabilidade exclusiva do marketplace oficial e do vendedor parceiro onde a transação foi realizada. A (nomeloja) não tem acesso a dados de pedidos nem gerencia códigos de rastreamento.
+                O processamento de pagamento, faturamento, emissão de nota fiscal, separação de pedidos, prazos de frete, entrega e atendimento pós-venda são de responsabilidade exclusiva do marketplace oficial e do vendedor parceiro onde a transação foi realizada. A SHERYPINK não tem acesso a dados de pedidos nem gerencia códigos de rastreamento.
               </p>
             </section>
 

@@ -15,7 +15,7 @@ const FAQ_DATA: FaqItem[] = [
     category: "Compra & Pagamento",
     question: "O site faz a venda direta ou processa o pagamento?",
     answer:
-      "Não. Este portal atua exclusivamente como curadoria editorial e guia de comparação. Não recebemos pagamentos, não solicitamos dados de cartão e não emitimos boletos. Ao clicar no botão de acesso, você é direcionada para a página oficial do produto na plataforma correspondente (Mercado Livre, SHEIN ou TikTok Shop), onde a compra é concluída com total segurança.",
+      "Não. Este portal atua exclusivamente como curadoria editorial e guia de comparação. Não recebemos pagamentos, não solicitamos dados de cartão e não emitimos boletos. Ao clicar no botão de acesso, você é direcionada para a página oficial do produto na plataforma correspondente (Amazon, Shopee, Mercado Livre, TikTok Shop), onde a compra é concluída com total segurança.",
   },
   {
     id: "02",

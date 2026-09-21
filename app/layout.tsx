@@ -23,10 +23,10 @@ const anton = Anton({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zanvendas.zanvexis.com/"),
+  metadataBase: new URL("https://sherypink.com/"),
   title: {
-    default: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
-    template: "%s | (nomeloja)",
+    default: "SHERYPINK | Curadoria & Guias de Produtos Femininos",
+    template: "%s | SHERYPINK",
   },
   description:
     "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
+    title: "SHERYPINK | Curadoria & Guias de Produtos Femininos",
     description:
       "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
-    url: "https://zanvendas.zanvexis.com/",
-    siteName: "(nomeloja)",
+    url: "https://sherypink.com/",
+    siteName: "SHERYPINK",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "(nomeloja) | Curadoria & Guias de Produtos Femininos",
+    title: "SHERYPINK | Curadoria & Guias de Produtos Femininos",
     description:
       "Curadoria independente e comparação de maquiagem, beleza, bolsas e acessórios femininos. Encontre detalhes, prós, contras e ofertas diretamente nas plataformas oficiais.",
   },

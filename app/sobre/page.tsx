@@ -6,7 +6,7 @@ import { Search, ShieldCheck, Scale, Sparkles, Github, Linkedin, ExternalLink } 
 export const metadata: Metadata = {
   title: "Sobre Nós | Metodologia Editorial e Curadoria Independente",
   description:
-    "Conheça a metodologia de seleção, os critérios de comparação e o compromisso de transparência editorial da (nomeloja) na indicação de produtos femininos em marketplaces oficiais.",
+    "Conheça a metodologia de seleção, os critérios de comparação e o compromisso de transparência editorial da SHERYPINK na indicação de produtos femininos em marketplaces oficiais.",
 };
 
 export default function SobrePage() {
@@ -30,7 +30,7 @@ export default function SobrePage() {
             >
               Sobre a
               <br />
-              (nomeloja)
+              SHERYPINK
             </h1>
 
             <p className="font-sans text-lg sm:text-2xl uppercase tracking-wider font-black text-black max-w-4xl leading-tight">
@@ -47,7 +47,7 @@ export default function SobrePage() {
 
             <div className="space-y-6 font-sans text-base sm:text-xl font-black text-black leading-relaxed">
               <p>
-                A (nomeloja) é uma plataforma editorial independente de descoberta, comparação e curadoria de produtos femininos — abrangendo maquiagem, cosméticos, bolsas, acessórios e itens de cuidados pessoais.
+                A SHERYPINK é uma plataforma editorial independente de descoberta, comparação e curadoria de produtos femininos — abrangendo maquiagem, cosméticos, bolsas, acessórios e itens de cuidados pessoais.
               </p>
 
               <p>
@@ -55,7 +55,7 @@ export default function SobrePage() {
               </p>
 
               <p>
-                Ao escolher um item em nossas seleções, você é direcionada de forma transparente para a página oficial do produto em grandes plataformas (como Mercado Livre, SHEIN ou TikTok Shop), onde a compra, o pagamento protegido e a entrega são concluídos diretamente com os vendedores oficiais.
+                Ao escolher um item em nossas seleções, você é direcionada de forma transparente para a página oficial do produto em grandes plataformas (como Amazon, Shopee, Mercado Livre, TikTok Shop), onde a compra, o pagamento protegido e a entrega são concluídos diretamente com os vendedores oficiais.
               </p>
             </div>
           </section>

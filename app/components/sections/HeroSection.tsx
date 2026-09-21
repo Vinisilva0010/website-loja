@@ -394,7 +394,7 @@ export default function HeroSection() {
               className="font-title text-[clamp(2.5rem,8vw,5.5rem)] font-black uppercase leading-[0.9] tracking-tight"
               style={{ color: "var(--color-base)" }}
             >
-              (nomeloja)
+             SHERYPINK
             </h1>
 
             <p

@@ -16,7 +16,7 @@ const titleWhiteStyle = {
   textShadow: "clamp(4px, 0.8vw, 10px) clamp(4px, 0.8vw, 10px) 0px #000",
 } as React.CSSProperties;
 
-const FRENZY_LETTERS = ["B", "E", "A", "U", "T", "Y"];
+const FRENZY_LETTERS = ["S", "H", "E", "R", "", "Y", "P", "I", "N", "K"];
 const PROTOCOL_LETTERS = ["S", "H", "O", "P"];
 
 function TunnelLetter({ char, delay, color, style }: { char: string; delay: number; color: string; style: React.CSSProperties; }) {

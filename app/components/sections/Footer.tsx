@@ -11,7 +11,7 @@ export default function Footer() {
               CURADORIA INDEPENDENTE // 2026
             </span>
             <h2 className="font-title text-4xl sm:text-6xl font-black uppercase tracking-tight mt-3 text-white">
-              (nomeloja)
+              SHERYPINK
             </h2>
           </div>
           <p className="font-mono text-sm sm:text-base font-black uppercase max-w-md mt-4 md:mt-0 text-white leading-relaxed">
@@ -29,7 +29,7 @@ export default function Footer() {
                   [ MODELO & TRANSPARÊNCIA ]
                 </span>
                 <p className="font-mono text-sm font-black text-white leading-relaxed">
-                  Este site opera como um portal editorial. Não realizamos venda direta nem processamos pagamentos. Ao clicar em nossas recomendações, você é encaminhada à plataforma oficial (Mercado Livre, SHEIN, TikTok Shop), onde a compra é concluída.
+                  Este site opera como um portal editorial. Não realizamos venda direta nem processamos pagamentos. Ao clicar em nossas recomendações, você é encaminhada à plataforma oficial (Amazon, Shopee, Mercado Livre, TikTok Shop), onde a compra é concluída.
                 </p>
               </div>
 
@@ -165,7 +165,8 @@ export default function Footer() {
                 [ MARKETPLACES ]
               </span>
               <p className="font-mono text-xs font-black text-white">
-                Mercado Livre • SHEIN • TikTok Shop
+                
+                Amazon • Shopee • Mercado Livre • TikTok Shop
               </p>
             </div>
           </div>
@@ -214,7 +215,7 @@ export default function Footer() {
         {/* RODAPÉ INFERIOR */}
         <div className="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-mono text-white font-black">
           <div className="text-center md:text-left leading-relaxed">
-            © 2026 (nomeloja). Desenvolvido por{" "}
+            © 2026 SHERYPINK. Desenvolvido por{" "}
             <strong className="text-black bg-white px-1.5 py-0.5 rounded">Zanvexis Tecnologia</strong>. Todos os direitos reservados.
           </div>
 

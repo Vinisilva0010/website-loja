@@ -280,7 +280,7 @@ export default function Header() {
               <div className="flex flex-col gap-2">
                 <span className="font-black text-[#970797] text-xl uppercase">[ AVISO DE AFILIADO ]</span>
                 <p className="text-[#970797] text-sm font-black leading-relaxed">
-                  Curadoria independente. A compra e o pagamento são concluídos nas plataformas oficiais (SHEIN, Mercado Livre, TikTok Shop).
+                  Curadoria independente. A compra e o pagamento são concluídos nas plataformas oficiais (Amazon, Shopee, Mercado Livre, TikTok Shop).
                 </p>
               </div>
 
@@ -297,7 +297,7 @@ export default function Header() {
           </div>
 
           <div className="max-w-7xl mx-auto w-full pt-8 border-t-[4px] border-[#970797] flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-sm font-black text-[#970797]">
-            <span>© 2026 (nomeloja) // CURADORIA INDEPENDENTE</span>
+            <span>© 2026 loja) // CURADORIA INDEPENDENTE</span>
             <span>PRODUTOS FEMININOS // MARKETPLACES OFICIAIS</span>
           </div>
         </div>

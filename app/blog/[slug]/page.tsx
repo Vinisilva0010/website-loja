@@ -30,7 +30,7 @@ export async function generateMetadata({
     title: `${post.title} | Zanvendas`,
     description: post.description,
     alternates: {
-      canonical: `https://zanvendas.zanvexis.com/blog/${params.slug}`,
+      canonical: `https://sherypink.com/blog/${params.slug}`,
     },
     openGraph: {
       title: post.title,
@@ -38,14 +38,14 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.updated || post.date,
-      url: `https://zanvendas.zanvexis.com/blog/${params.slug}`,
-      images: post.image ? [`https://zanvendas.zanvexis.com${post.image}`] : [],
+      url: `https://sherypink.com/blog/${params.slug}`,
+      images: post.image ? [`https://sherypink.com${post.image}`] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.image ? [`https://zanvendas.zanvexis.com${post.image}`] : [],
+      images: post.image ? [`https://sherypink.com${post.image}`] : [],
     },
   };
 }
@@ -70,17 +70,17 @@ export default function BlogPostPage({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
-    image: post.image ? [`https://zanvendas.zanvexis.com${post.image}`] : [],
+    image: post.image ? [`https://sherypink.com${post.image}`] : [],
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.updated || post.date).toISOString(),
     author: {
       "@type": "Organization",
-      name: "Operação Zanvendas",
-      url: "https://zanvendas.zanvexis.com/sobre",
+      name: "Operação SHERYPINK",
+      url: "https://sherypink.com/sobre",
     },
     publisher: {
       "@type": "Organization",
-      name: "Zanvexis Tecnologia",
+      name: "SHERYPINK",
     },
     description: post.description,
   };

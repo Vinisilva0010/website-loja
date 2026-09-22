@@ -1,0 +1,24 @@
+warning: in the working copy of 'app/blog/page.tsx', LF will be replaced by CRLF the next time Git touches it
+ app/blog/page.tsx                                  | 288 [32m+++++++++[m[31m------------[m
+ content/posts/acos-mercado-livre-como-calcular.mdx |   5 [32m+[m[31m-[m
+ .../posts/antecipacao-recebiveis-marketplace.mdx   |   4 [32m+[m[31m-[m
+ .../bloqueio-conta-marketplace-motivo-fiscal.mdx   |   5 [32m+[m[31m-[m
+ content/posts/comissao-afiliados-tiktok-shop.mdx   |   5 [32m+[m[31m-[m
+ .../como-embalar-produto-envio-marketplace.mdx     |   3 [31m-[m
+ .../como-evitar-prejuizo-taxas-marketplace.mdx     |   4 [31m-[m
+ .../posts/como-validar-fornecedor-confiavel.mdx    |   2 [31m-[m
+ .../posts/estoque-compartilhado-marketplace.mdx    |   4 [32m+[m[31m-[m
+ .../posts/frete-gratis-vale-a-pena-marketplace.mdx |   4 [32m+[m[31m-[m
+ .../guia-completo-primeira-venda-online-brasil.mdx |  12 [32m+[m[31m-[m
+ ...importacao-propria-ou-distribuidor-nacional.mdx |   4 [32m+[m[31m-[m
+ content/posts/malha-fina-vendendo-online.mdx       |   5 [32m+[m[31m-[m
+ content/posts/marketplace-unico-ou-multicanal.mdx  |   4 [31m-[m
+ content/posts/mercado-livre-full-vale-a-pena.mdx   |   4 [31m-[m
+ .../posts/nota-fiscal-eletronica-marketplace.mdx   |   4 [32m+[m[31m-[m
+ .../posts/preparar-black-friday-marketplace.mdx    |   4 [32m+[m[31m-[m
+ content/posts/reduzir-prazo-despacho-ecommerce.mdx |   4 [32m+[m[31m-[m
+ content/posts/shopee-ads-como-funciona.mdx         |   5 [32m+[m[31m-[m
+ .../posts/simples-nacional-venda-marketplace.mdx   |   3 [31m-[m
+ content/posts/vender-amazon-brasil-fba-fbm.mdx     |   5 [32m+[m[31m-[m
+ tsconfig.tsbuildinfo                               |   2 [32m+[m[31m-[m
+ 22 files changed, 148 insertions(+), 232 deletions(-)

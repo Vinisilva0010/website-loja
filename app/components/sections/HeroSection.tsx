@@ -6,25 +6,26 @@ import Image from "next/image";
 import { getByCategory, type Product } from "@/lib/products";
 
 const CATEGORIES: { key: Product["category"]; label: string; description: string }[] = [
-  { key: "batom", label: "Batons & Lábios", description: "Cores e texturas para reposição diária sem complicação." },
-  { key: "base", label: "Bases & Rosto", description: "Base, corretivo e pó essenciais para a sua rotina." },
-  { key: "chapinha", label: "Cabelo & Ferramentas", description: "Pranchas e modeladores para manter o styling alinhado." },
-  { key: "lingerie", label: "Lingerie & Conforto", description: "Peças práticas e estruturadas para o dia a dia." },
-  { key: "skincare", label: "Skincare", description: "Hidratantes, protetor solar e séruns de reposição regular." },
+  { key: "maquiagem", label: "Maquiagem", description: "Base, corretivo, batom e rímel que você repõe todo mês." },
+  { key: "skincare", label: "Skincare", description: "Limpeza, sérum, hidratante e protetor solar da rotina diária." },
+  { key: "cabelo", label: "Cabelo", description: "Shampoo, máscara, óleo e finalizador pro seu tipo de fio." },
+  { key: "corpo", label: "Corpo & Banho", description: "Hidratante, esfoliante, desodorante e body splash." },
+  { key: "unhas", label: "Unhas", description: "Esmaltes, bases fortalecedoras e cuidados com as unhas." },
 ];
 
 const QUICK_SUGGESTIONS = [
-  "Batom Matte",
-  "Base Líquida",
-  "Chapinha Titanium",
-  "Lingerie Conforto",
+  "Base",
+  "Batom",
   "Protetor Solar",
-  "Sérum Vitamina C",
+  "Sérum",
+  "Máscara Capilar",
+  "Hidratante Corporal",
+  "Esmalte",
+  "Shopee",
+  "Amazon",
   "Mercado Livre",
-  "SHEIN",
   "TikTok Shop",
 ];
-
 const BENEFITS = [
   "CURADORIA INDEPENDENTE — SELEÇÃO MANUAL DE PRODUTOS",
   "COMPRA FINALIZADA DIRETO NA PLATAFORMA OFICIAL",
@@ -62,6 +63,10 @@ function getDiscount(product: Product) {
     ? Math.round(100 - (product.price / product.originalPrice!) * 100)
     : 0;
   return { hasDiscount, percent };
+}
+
+function normalizeText(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
 function RatingLine({ product, size = "sm" }: { product: Product; size?: "sm" | "md" }) {
@@ -541,14 +546,15 @@ function CategorySection({
 }) {
   const items = getByCategory(category);
 
-  const filteredItems = useMemo(() => {
+   const filteredItems = useMemo(() => {
     if (!searchTerm.trim()) return items;
-    const term = searchTerm.toLowerCase();
+    const term = normalizeText(searchTerm.trim());
     return items.filter(
       (p) =>
-        p.name.toLowerCase().includes(term) ||
-        p.description.toLowerCase().includes(term) ||
-        p.platform.toLowerCase().includes(term)
+        normalizeText(p.name).includes(term) ||
+        normalizeText(p.description).includes(term) ||
+        normalizeText(platformLabel(p.platform)).includes(term) ||
+        p.tags.some((tag) => normalizeText(tag).includes(term))
     );
   }, [items, searchTerm]);
 
@@ -615,7 +621,7 @@ export default function HeroSection() {
               className="font-sans text-lg sm:text-2xl font-black max-w-3xl leading-snug"
               style={{ color: "var(--color-base)" }}
             >
-              Maquiagem, beleza, lingeries e achados selecionados. Compare detalhes e acesse a oferta diretamente na plataforma oficial.
+                            Maquiagem, skincare, cabelo e cuidados de reposição selecionados. Compare detalhes e acesse a oferta direto na plataforma oficial.
             </p>
           </div>
         </div>

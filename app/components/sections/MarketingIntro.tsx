@@ -192,7 +192,7 @@ export default function MarketingIntro() {
 
         {/* CTA */}
         <p className="mt-8 font-sans text-lg md:text-xl font-bold max-w-2xl" style={{ color: "var(--color-text)" }}>
-          Maquiagem, beleza, lingeries e achados selecionados com os melhores preços.
+          Maquiagem, skincare, cabelo e cuidados de reposição, escolhidos por nota, vendas e oferta.
         </p>
       </motion.div>
 

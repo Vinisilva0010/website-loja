@@ -2,7 +2,7 @@
 
 import { use, useMemo } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Footer from "@/app/components/sections/Footer";
@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 interface CategoryDetail {
-  key: string;
+  key?: Product["category"]; // omitted for curated lists that use customFilter
   title: string;
   subtitle: string;
   description: string;
@@ -26,690 +26,407 @@ interface CategoryDetail {
   customFilter?: (products: Product[]) => Product[];
 }
 
+// The selection process is the same for every category.
+const SELECTION_STEPS: CategoryDetail["steps"] = [
+  {
+    step: 1,
+    title: "Filtro pelos dados da plataforma",
+    description:
+      "Partimos da nota média, do volume de vendas e da reputação do vendedor informados pela própria plataforma.",
+  },
+  {
+    step: 2,
+    title: "Leitura de avaliações reais",
+    description:
+      "Conferimos comentários e fotos de compradoras para checar textura, acabamento e problemas que se repetem.",
+  },
+  {
+    step: 3,
+    title: "Link direto para o anúncio oficial",
+    description:
+      "O botão leva ao anúncio na Amazon, Shopee, Mercado Livre ou TikTok Shop, onde acontecem a compra, o pagamento e a entrega.",
+  },
+];
+
+const DEFAULT_METRICS: CategoryDetail["metrics"] = [
+  { value: "Oficial", label: "Compra na plataforma" },
+  { value: "Nota + vendas", label: "Critério de seleção" },
+  { value: "R$ 0", label: "Custo extra pra você" },
+];
+
+const DELIVERY_FAQ = {
+  question: "O site vende ou entrega os produtos?",
+  answer:
+    "Não. A compra, o pagamento e a entrega acontecem na plataforma do anúncio (Amazon, Shopee, Mercado Livre ou TikTok Shop), com as regras de troca e devolução dela.",
+};
+
 const CATEGORY_MAP: Record<string, CategoryDetail> = {
   maquiagem: {
-    key: "batom",
-    title: "Maquiagem & Beleza",
-    subtitle: "PIGMENTAÇÃO, COBERTURA & FIXAÇÃO PROLONGADA",
+    key: "maquiagem",
+    title: "Maquiagem",
+    subtitle: "BASE, CORRETIVO, BATOM E OLHOS DE REPOSIÇÃO",
     description:
-      "Curadoria editorial de batons, bases, corretivos, pós e rímeis com foco em durabilidade, textura e indicação direta nas lojas oficiais.",
+      "Bases, corretivos, pós, batons e rímeis que acabam e voltam pro carrinho, escolhidos por nota, volume de vendas e comentários de quem já usou.",
     badge: "MAKEUP // CURADORIA 2026",
-    metrics: [
-      { value: "100%", label: "Lojas Oficiais" },
-      { value: "12h+", label: "Fixação Média" },
-      { value: "Zero", label: "Cobrança Oculta" },
-    ],
+    metrics: DEFAULT_METRICS,
     criteria: [
       {
-        title: "Pigmentação & Textura",
+        title: "Cobertura e acabamento",
         items: [
-          "Cobertura uniforme logo na primeira camada de aplicação",
-          "Fórmula que não craquela em linhas de expressão",
-          "Conforto para uso contínuo ao longo do dia",
+          "Cobertura descrita bate com as fotos das compradoras",
+          "Acabamento (matte, natural, glow) informado com clareza",
+          "Variedade de tons, incluindo peles negras",
         ],
       },
       {
-        title: "Resistência & Transferência",
+        title: "Duração no dia a dia",
         items: [
-          "Estabilidade da fórmula frente ao suor e calor",
-          "Secagem rápida com acabamento aveludado",
-          "Fidelidade de tom após a secagem completa",
+          "Relatos de fixação ao longo do dia",
+          "Comportamento em calor e pele oleosa",
+          "Sem reclamações frequentes de craquelar",
         ],
       },
       {
-        title: "Custo por Reposição",
+        title: "Custo por reposição",
         items: [
-          "Avaliação de rendimento por gramatura/ml",
-          "Melhor relação custo-benefício em compras recorrentes",
-          "Histórico de preços nos marketplaces oficiais",
+          "Rendimento por ml ou grama",
+          "Preço que cabe numa recompra mensal",
+          "Vendedor com boa reputação e envio regular",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Varredura de Fórmulas e Lotes Oficiais",
-        description:
-          "Mapeamos os itens de maquiagem mais procurados, descartando produtos sem registro sanitário ou de procedência duvidosa.",
-      },
-      {
-        step: 2,
-        title: "Validação em Fotos e Comentários Reais",
-        description:
-          "Cruzamos centenas de avaliações com fotos de compradoras reais para checar acabamento e pigmentação.",
-      },
-      {
-        step: 3,
-        title: "Redirecionamento Protegido",
-        description:
-          "Geramos o link de acesso seguro diretamente para a loja oficial no Mercado Livre, SHEIN ou TikTok Shop.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Rotina Diária de Trabalho",
-        description: "Itens leves com acabamento natural que não exigem retoques a cada hora.",
-      },
-      {
-        title: "Eventos & Maquiagem Noturna",
-        description: "Alta pigmentação e durabilidade à prova d'água para festas e ocasiões especiais.",
-      },
-      {
-        title: "Reposição Mensal Econômica",
-        description: "Opções acessíveis de qualidade para produtos de alto giro na sua bancada.",
-      },
+      { title: "Maquiagem do dia a dia", description: "Itens de acabamento natural pra trabalho e faculdade, sem retoque toda hora." },
+      { title: "Pele oleosa e calor", description: "Bases e pós de acabamento matte que seguram melhor a oleosidade." },
+      { title: "Reposição mensal", description: "Os itens que mais acabam na bancada, com preço de recompra." },
     ],
     faqs: [
       {
-        question: "Como saber se a cor da maquiagem combina com meu tom de pele?",
+        question: "Como acertar o tom da base comprando online?",
         answer:
-          "Recomendamos verificar fotos enviadas por compradoras nos comentários da loja oficial, pois a luz de catálogo pode alterar a percepção do tom.",
+          "Compare as fotos de compradoras com tom de pele parecido com o seu nos comentários do anúncio. A foto de catálogo costuma ter luz que muda a cor.",
       },
-      {
-        question: "O site faz o envio da maquiagem?",
-        answer:
-          "Não. A compra e a entrega são realizadas diretamente pelo marketplace oficial (Mercado Livre, SHEIN ou TikTok Shop) onde a oferta está hospedada.",
-      },
-    ],
-  },
-  "bolsas-femininas": {
-    key: "bolsas",
-    title: "Bolsas Femininas",
-    subtitle: "ESTRUTURA, COMPARTIMENTOS & ACABAMENTO RESISTENTE",
-    description:
-      "Seleção de bolsas transversais, de ombro, mochilas e carteiras. Comparamos medidas reais, material sintético de qualidade e espaço interno.",
-    badge: "BAGS // CURADORIA 2026",
-    metrics: [
-      { value: "Zíper Duplo", label: "Fechamento Seguro" },
-      { value: "Reforçada", label: "Costura & Alça" },
-      { value: "100%", label: "Lojas Oficiais" },
-    ],
-    criteria: [
-      {
-        title: "Material & Acabamento",
-        items: [
-          "PU estruturado ou tecido impermeável de alta densidade",
-          "Forro interno resistente que não descostura facilmente",
-          "Metais (fechos e mosquetões) com banho anti-oxidação",
-        ],
-      },
-      {
-        title: "Dimensões & Divisórias",
-        items: [
-          "Compartimento dedicado para smartphone e documentos",
-          "Medidas em centímetros checadas contra o anúncio oficial",
-          "Bolsos externos de acesso rápido com zíper seguro",
-        ],
-      },
-      {
-        title: "Ergonomia da Alça",
-        items: [
-          "Alças reguláveis e removíveis para uso transversal ou ombro",
-          "Largura adequada para não machucar o ombro com peso",
-          "Reforço nos pontos de maior tração",
-        ],
-      },
-    ],
-    steps: [
-      {
-        step: 1,
-        title: "Mapeamento de Medidas e Estrutura",
-        description:
-          "Verificamos as dimensões reais (altura, largura e profundidade) para garantir que a bolsa comporta os itens essenciais.",
-      },
-      {
-        step: 2,
-        title: "Análise de Durabilidade das Alças e Costuras",
-        description:
-          "Avaliamos o retorno de usuárias sobre resistência do material ao peso e desgaste diário.",
-      },
-      {
-        step: 3,
-        title: "Encaminhamento Oficial",
-        description:
-          "Conectamos o item ao anúncio verificado no marketplace com política clara de devolução caso não atenda às expectativas.",
-      },
-    ],
-    useCases: [
-      {
-        title: "Trabalho & Faculdade",
-        description: "Modelos estruturados com espaço para cadernos, carteira, cosméticos e celular.",
-      },
-      {
-        title: "Passeios & Finais de Semana",
-        description: "Bolsas transversais compactas e leves para carregar o essencial com segurança.",
-      },
-      {
-        title: "Viagens & Dia a Dia Dinâmico",
-        description: "Mochilas e bolsas com múltiplos bolsos para organização prática de pertences.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Como saber o tamanho real da bolsa antes de comprar?",
-        answer:
-          "Consulte as medidas em centímetros (LxAxP) presentes na ficha técnica e compare com uma régua ou com uma bolsa que você já possua.",
-      },
-      {
-        question: "O material é resistente a chuvas leves?",
-        answer:
-          "A maioria dos modelos em PU sintético e nylon suporta respingos e chuva leve, protegendo os pertences internos quando fechados corretamente.",
-      },
-    ],
-  },
-  "brincos-colares": {
-    key: "acessorios",
-    title: "Brincos & Semijoias",
-    subtitle: "BANHO DE QUALIDADE, BRILHO & DESIGN CONTEMPORÂNEO",
-    description:
-      "Guia de brincos, colares, anéis e conjuntos de acessórios. Priorizamos peças com acabamento antialérgico e fechos firmes.",
-    badge: "JEWELRY // CURADORIA 2026",
-    metrics: [
-      { value: "Antialérgico", label: "Livre de Níquel" },
-      { value: "Zircônia", label: "Pedras Cravadas" },
-      { value: "100%", label: "Lojas Oficiais" },
-    ],
-    criteria: [
-      {
-        title: "Banho & Durabilidade",
-        items: [
-          "Verniz de proteção para evitar escurecimento rápido",
-          "Composição antialérgica livre de níquel para peles sensíveis",
-          "Acabamento polido sem rebarbas ou pontas afiadas",
-        ],
-      },
-      {
-        title: "Cravação & Fechos",
-        items: [
-          "Zircônias e pedras com cravação firme",
-          "Fecho lagosta ou tarraxas de pressão com ajuste seguro",
-          "Correntes com elos soldados para evitar rompimento",
-        ],
-      },
-      {
-        title: "Versatilidade de Combinação",
-        items: [
-          "Design atemporal fácil de combinar com mix de colares",
-          "Peças leves que não pesam no lóbulo da orelha",
-          "Excelente opção para presentear com custo acessível",
-        ],
-      },
-    ],
-    steps: [
-      {
-        step: 1,
-        title: "Seleção de Materiais e Acabamentos",
-        description:
-          "Filtramos apenas semijoias e bijuterias finas com banho reforçado e relatos positivos de longa duração de brilho.",
-      },
-      {
-        step: 2,
-        title: "Checagem de Fechos e Tarraxas",
-        description:
-          "Confirmamos a firmeza dos encaixes através das avaliações de compradoras para evitar perdas acidentais.",
-      },
-      {
-        step: 3,
-        title: "Indicação Direta na Loja",
-        description:
-          "Disponibilizamos o botão direto para o fornecedor oficial com envio protegido no marketplace.",
-      },
-    ],
-    useCases: [
-      {
-        title: "Composição Diária Minimalista",
-        description: "Argolinhas e pontos de luz discretos para compor o visual básico do dia a dia.",
-      },
-      {
-        title: "Mix de Colares & Tendências",
-        description: "Conjuntos em camadas que valorizam decotes e camisas sem precisar gastar muito.",
-      },
-      {
-        title: "Presente Rápido & Marcante",
-        description: "Peças versáteis que agradam diferentes estilos com embalagem prática de entrega.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Como cuidar das semijoias para manter o brilho por mais tempo?",
-        answer:
-          "Evite contato direto com perfumes, cremes hidratantes, álcool em gel e água de piscina. Guarde as peças individualmente em local seco.",
-      },
-      {
-        question: "As peças causam alergia na orelha?",
-        answer:
-          "Priorizamos peças declaradas livres de níquel. Se você tem alta sensibilidade, dê preferência a modelos em aço inoxidável ou prata 925.",
-      },
+      DELIVERY_FAQ,
     ],
   },
   skincare: {
     key: "skincare",
-    title: "Skincare & Cuidados",
-    subtitle: "LIMPEZA, HIDRATAÇÃO, SÉRUMS & PROTEÇÃO SOLAR DIÁRIA",
+    title: "Skincare",
+    subtitle: "LIMPEZA, SÉRUM, HIDRATAÇÃO E PROTEÇÃO SOLAR",
     description:
-      "Guia completo de cosméticos essenciais de reposição para a sua rotina de cuidados com a pele do rosto e corpo.",
+      "Os produtos da rotina de cuidados com a pele que você repõe com frequência, escolhidos por nota, vendas e relatos de uso.",
     badge: "SKIN // CURADORIA 2026",
-    metrics: [
-      { value: "Dermatológico", label: "Padrão de Fórmulas" },
-      { value: "Diário", label: "Foco de Reposição" },
-      { value: "100%", label: "Lojas Oficiais" },
-    ],
+    metrics: DEFAULT_METRICS,
     criteria: [
       {
-        title: "Ativos e Fórmulas",
+        title: "Ativos e textura",
         items: [
-          "Presença de ativos comprovados (vitamina C, niacinamida, rosa mosqueta)",
-          "Texturas de rápida absorção sem sensação pegajosa",
-          "Fórmulas hipoalergênicas e livres de componentes irritantes",
+          "Ativos informados no rótulo (vitamina C, niacinamida, ácido hialurônico)",
+          "Absorção rápida, sem sensação pegajosa",
+          "FPS e tipo de toque declarados no anúncio do protetor",
         ],
       },
       {
-        title: "Compatibilidade Cutânea",
+        title: "Tipo de pele",
         items: [
-          "Indicação clara para peles oleosas, secas, sensíveis ou mistas",
-          "Ausência de efeito comedogênico (não obstrui os poros)",
-          "Ação calmante para redução de vermelhidão e sensibilidade",
+          "Indicação clara pra pele oleosa, seca, mista ou sensível",
+          "Relatos de compradoras com o mesmo tipo de pele",
+          "Sem reclamações frequentes de irritação",
         ],
       },
       {
-        title: "Custo por Rendimento",
+        title: "Rendimento",
         items: [
-          "Duração média do frasco em rotinas diárias",
-          "Eficiência por dosador pump ou conta-gotas",
-          "Comparativo de preço em kits combinados",
+          "Duração do frasco na rotina diária",
+          "Embalagem com pump ou conta-gotas",
+          "Comparação de preço entre unidade e kit",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Triagem de Rótulos e Ativos",
-        description:
-          "Analisamos a lista de ingredientes para destacar os princípios ativos e descartar fórmulas sem eficácia comprovada.",
-      },
-      {
-        step: 2,
-        title: "Consolidação de Relatos de Uso",
-        description:
-          "Compilamos a experiência de usuárias reais sobre absorção, cheiro, textura e efeito na pele após semanas de uso.",
-      },
-      {
-        step: 3,
-        title: "Acesso Seguro ao Fornecedor",
-        description:
-          "Conectamos os produtos exclusivamente aos lojistas oficiais com controle de validade e armazenamento adequado.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Rotina Básica de 3 Passos",
-        description: "Limpar, hidratar e proteger: o trio fundamental para manter a barreira da pele saudável.",
-      },
-      {
-        title: "Controle de Cravos & Poros",
-        description: "Esfoliantes e removedores a vácuo para renovação celular e higienização profunda.",
-      },
-      {
-        title: "Hidratação Corporal Intensiva",
-        description: "Cremes e esfoliantes corporais para áreas ressecadas como cotovelos, pernas e calcanhares.",
-      },
+      { title: "Rotina básica", description: "Limpar, hidratar e proteger: o trio que sustenta qualquer rotina." },
+      { title: "Pele oleosa e poros", description: "Géis de limpeza e hidratantes leves que não pesam." },
+      { title: "Manchas e viço", description: "Séruns com ativos iluminadores pra usar junto com protetor solar." },
     ],
     faqs: [
       {
-        question: "Qual a ordem correta de aplicação dos produtos?",
+        question: "Qual a ordem de aplicação dos produtos?",
         answer:
-          "Do mais líquido ao mais denso: 1. Gel de limpeza, 2. Tônico, 3. Sérum concentrado, 4. Hidratante e 5. Protetor solar pela manhã.",
+          "Do mais leve pro mais denso: limpeza, tônico, sérum, hidratante e, de manhã, protetor solar por último.",
       },
-      {
-        question: "Como saber se o produto não vai irritar minha pele?",
-        answer:
-          "Faça um teste de contato aplicando uma pequena quantidade no antebraço e aguarde 24 horas antes de aplicar no rosto.",
-      },
+      DELIVERY_FAQ,
     ],
   },
-  "cabelo-unhas": {
-    key: "chapinha",
-    title: "Cabelo & Ferramentas",
-    subtitle: "PRANCHAS, ESCOVAS SECADORAS & MODELADORES TÉRMICOS",
+  cabelo: {
+    key: "cabelo",
+    title: "Cabelo",
+    subtitle: "SHAMPOO, MÁSCARA, ÓLEO E FINALIZADOR",
     description:
-      "Comparação técnica de pranchas alisadoras, modeladores, secadores e cuidados para unhas e cabelos.",
+      "Produtos de cuidado capilar que acabam e voltam pra lista de compras, escolhidos por tipo de fio, nota e relatos de uso.",
     badge: "HAIR // CURADORIA 2026",
-    metrics: [
-      { value: "Bivolt", label: "Compatibilidade" },
-      { value: "230°C", label: "Temperatura Máx." },
-      { value: "INMETRO", label: "Padrão de Segurança" },
-    ],
+    metrics: DEFAULT_METRICS,
     criteria: [
       {
-        title: "Tecnologia das Placas",
+        title: "Indicação por tipo de fio",
         items: [
-          "Placas de titânio para alisamento rápido e uniforme",
-          "Revestimento em cerâmica com emissão de íons negativos",
-          "Deslizamento suave sem repuxar ou quebrar os fios",
+          "Indicação clara: liso, ondulado, cacheado ou crespo",
+          "Função descrita: hidratação, nutrição ou reconstrução",
+          "Relatos de compradoras com o mesmo tipo de cabelo",
         ],
       },
       {
-        title: "Controle de Temperatura",
+        title: "Resultado relatado",
         items: [
-          "Visor digital com ajuste preciso para diferentes tipos de cabelo",
-          "Aquecimento rápido em menos de 60 segundos",
-          "Trava de segurança e desligamento automático",
+          "Maciez e brilho citados nas avaliações",
+          "Controle de frizz e volume",
+          "Sem reclamações frequentes de ressecamento",
         ],
       },
       {
-        title: "Ergonomia & Cabo",
+        title: "Rendimento",
         items: [
-          "Cabo giratório 360° para facilitar manuseio e cachos",
-          "Isolamento térmico na ponta para apoio seguro dos dedos",
-          "Corpo leve para evitar fadiga durante o uso",
+          "Tamanho da embalagem versus frequência de uso",
+          "Preço por ml comparado a similares",
+          "Vendedor com boa reputação e envio regular",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Checagem de Certificação Elétrica",
-        description:
-          "Filtramos apenas ferramentas com certificação de segurança e priorizamos modelos bivolt para maior praticidade.",
-      },
-      {
-        step: 2,
-        title: "Avaliação Térmica e Saúde do Fio",
-        description:
-          "Comparamos a estabilidade de temperatura para evitar picos térmicos que danifiquem a fibra capilar.",
-      },
-      {
-        step: 3,
-        title: "Garantia do Fabricante",
-        description:
-          "Selecionamos fornecedores com suporte ágil e reposição garantida nas plataformas oficiais.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Alisamento Rápido Diário",
-        description: "Pranchas e escovas secadoras práticas para finalizar o cabelo em poucos minutos.",
-      },
-      {
-        title: "Modelagem de Ondas e Cachos",
-        description: "Ferramentas com bordas arredondadas que permitem alisar ou cachear com o mesmo aparelho.",
-      },
-      {
-        title: "Cabelos Grossos e Rebeldes",
-        description: "Modelos com temperatura profissional de até 230°C para selagem uniforme dos fios.",
-      },
+      { title: "Cronograma capilar", description: "Máscaras de hidratação, nutrição e reconstrução pra alternar na semana." },
+      { title: "Frizz e volume", description: "Óleos e finalizadores que alinham sem pesar." },
+      { title: "Cachos e crespos", description: "Cremes e géis com definição relatada por quem tem o mesmo tipo de fio." },
     ],
     faqs: [
       {
-        question: "Devo usar protetor térmico antes da chapinha ou secador?",
+        question: "Qual a diferença entre hidratação, nutrição e reconstrução?",
         answer:
-          "Sim. O protetor térmico reduz a perda de água e protege a cutícula capilar contra o calor direto da ferramenta.",
+          "Hidratação repõe água, nutrição repõe óleos e reconstrução repõe proteína. Muita gente alterna os três num cronograma capilar.",
       },
-      {
-        question: "Qual a voltagem dos aparelhos indicados?",
-        answer:
-          "A maioria dos modelos selecionados é bivolt automático (110V/220V), mas sempre confira a especificação na página da loja oficial.",
-      },
+      DELIVERY_FAQ,
     ],
   },
-  presentes: {
-    key: "presentes",
-    title: "Ideias de Presentes Femininos",
-    subtitle: "KITS, ACESSÓRIOS & ACHADOS PARA SURPREENDER",
+  "corpo-e-banho": {
+    key: "corpo",
+    title: "Corpo & Banho",
+    subtitle: "HIDRATANTE, ESFOLIANTE, DESODORANTE E BODY SPLASH",
     description:
-      "Seleção especial de presentes femininos: kits de beleza, acessórios finos, bolsas versáteis e itens de autocuidado.",
-    badge: "GIFTS // CURADORIA 2026",
-    metrics: [
-      { value: "Prontos", label: "Para Presentear" },
-      { value: "Abaixo de R$100", label: "Faixa Custo-Benefício" },
-      { value: "100%", label: "Lojas Oficiais" },
-    ],
+      "Cuidados com o corpo que fazem parte da rotina e acabam rápido, escolhidos por nota, vendas e relatos de uso.",
+    badge: "BODY // CURADORIA 2026",
+    metrics: DEFAULT_METRICS,
     criteria: [
       {
-        title: "Apresentação & Embalagem",
+        title: "Textura e absorção",
         items: [
-          "Kits com visual harmonioso e embalagens práticas para presente",
-          "Itens universais com alta taxa de aprovação",
-          "Combinações funcionais para o dia a dia",
+          "Absorção rápida, sem deixar a pele grudando",
+          "Hidratação que dura, segundo as avaliações",
+          "Indicação pra pele seca ou normal",
         ],
       },
       {
-        title: "Preço & Valor Percebido",
+        title: "Fragrância",
         items: [
-          "Excelente equilíbrio entre preço acessível e qualidade visível",
-          "Opções divididas por faixa de valor para caber em qualquer orçamento",
-          "Produtos com volume alto de avaliações 5 estrelas",
+          "Fixação relatada pelas compradoras",
+          "Descrição clara das notas do perfume",
+          "Sem reclamações frequentes de cheiro enjoativo",
         ],
       },
       {
-        title: "Facilidade de Escolha",
+        title: "Custo",
         items: [
-          "Itens que não exigem saber medidas corporais exatas",
-          "Cores e estilos clássicos que combinam com qualquer gosto",
-          "Entrega rápida pelos canais oficiais dos marketplaces",
+          "Preço por ml comparado a similares",
+          "Tamanho da embalagem versus frequência de uso",
+          "Vendedor com boa reputação e envio regular",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Filtro de Itens com Maior Índice de Satisfação",
-        description:
-          "Selecionamos produtos e kits com histórico comprovado de elogios de quem comprou para presentear.",
-      },
-      {
-        step: 2,
-        title: "Checagem de Prazos de Envio",
-        description:
-          "Priorizamos anúncios com logística rápida (como Full e Envios Rápidos) para garantir entregas pontuais.",
-      },
-      {
-        step: 3,
-        title: "Redirecionamento Direto",
-        description:
-          "Você acessa a página oficial do produto em um clique para finalizar o pedido com segurança.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Aniversários & Datas Especiais",
-        description: "Kits de cuidados e acessórios elegantes para demonstrar carinho sem complicação.",
-      },
-      {
-        title: "Amigo Secreto & Lembrancinhas",
-        description: "Achados funcionais de até R$ 50 com excelente acabamento e presença.",
-      },
-      {
-        title: "Autopresente de Autocuidado",
-        description: "Mimos e itens de beleza para renovar sua rotina de cuidados e autoestima.",
-      },
+      { title: "Pele seca", description: "Hidratantes corporais densos pra cotovelos, joelhos e pernas." },
+      { title: "Renovação da pele", description: "Esfoliantes corporais pra usar uma ou duas vezes por semana." },
+      { title: "Perfume do dia a dia", description: "Body splashes leves pra usar e reaplicar ao longo do dia." },
     ],
     faqs: [
       {
-        question: "Como escolher um presente sem saber o tamanho de roupa da pessoa?",
+        question: "Body splash fixa como perfume?",
         answer:
-          "Aposte em cosméticos de reposição, kits de skincare, bolsas transversais ou semijoias ajustáveis, que não dependem de medidas corporais estritas.",
+          "Não. O body splash tem menos concentração de fragrância e dura menos, então vale reaplicar ao longo do dia.",
+      },
+      DELIVERY_FAQ,
+    ],
+  },
+  unhas: {
+    key: "unhas",
+    title: "Unhas",
+    subtitle: "ESMALTES, BASES E CUIDADOS",
+    description:
+      "Esmaltes e cuidados com as unhas que você repõe sempre, escolhidos por nota, vendas e relatos de uso.",
+    badge: "NAILS // CURADORIA 2026",
+    metrics: DEFAULT_METRICS,
+    criteria: [
+      {
+        title: "Cobertura e secagem",
+        items: [
+          "Cobertura em uma ou duas camadas",
+          "Tempo de secagem relatado nas avaliações",
+          "Cor real parecida com a foto do anúncio",
+        ],
       },
       {
-        question: "O marketplace entrega direto na casa da pessoa presenteada?",
-        answer:
-          "Sim. Ao finalizar a compra na plataforma oficial, basta cadastrar o endereço da destinatária como local de entrega.",
+        title: "Durabilidade",
+        items: [
+          "Dias sem descascar, segundo as compradoras",
+          "Brilho que se mantém",
+          "Pincel que facilita a aplicação",
+        ],
       },
+      {
+        title: "Cuidados",
+        items: [
+          "Bases fortalecedoras com função descrita",
+          "Removedores que não ressecam a cutícula",
+          "Kits com preço melhor que itens avulsos",
+        ],
+      },
+    ],
+    steps: SELECTION_STEPS,
+    useCases: [
+      { title: "Unha feita em casa", description: "Esmaltes de secagem rápida e bom pincel pra quem faz sozinha." },
+      { title: "Unhas fracas", description: "Bases fortalecedoras pra usar sozinhas ou por baixo da cor." },
+      { title: "Reposição de cores", description: "Os tons que mais saem, com preço de recompra." },
+    ],
+    faqs: [
+      {
+        question: "Por que o esmalte descasca rápido?",
+        answer:
+          "Os motivos mais comuns são aplicar sem base, fazer camadas grossas e molhar as mãos em água quente logo depois. Base, camadas finas e extra brilho ajudam.",
+      },
+      DELIVERY_FAQ,
     ],
   },
   "achados-ate-50": {
-    key: "achados",
     title: "Achados até R$ 50",
-    subtitle: "MÁXIMO CUSTO-BENEFÍCIO EM ITENS ESSENCIAIS",
+    subtitle: "OS MELHORES ITENS DE REPOSIÇÃO QUE CABEM NO BOLSO",
     description:
-      "Lista filtrada com as melhores oportunidades de maquiagem, skincare, acessórios e utilidades femininas com valor de até R$ 50.",
-    badge: "UNDER $50 // CURADORIA 2026",
+      "Maquiagem, skincare, cabelo, corpo e unhas com preço de até R$ 50 no momento da atualização.",
+    badge: "ATÉ R$ 50 // CURADORIA 2026",
     metrics: [
-      { value: "Até R$ 50", label: "Teto de Preço" },
-      { value: "Altas Notas", label: "Avaliações" },
-      { value: "100%", label: "Lojas Oficiais" },
+      { value: "Até R$ 50", label: "Teto de preço" },
+      { value: "Nota + vendas", label: "Critério de seleção" },
+      { value: "R$ 0", label: "Custo extra pra você" },
     ],
     criteria: [
       {
-        title: "Relação Preço vs. Qualidade",
+        title: "Preço real",
         items: [
-          "Itens funcionais com preço acessível sem comprometer a segurança de uso",
-          "Cosméticos e ferramentas com fórmula e montagem confiáveis",
-          "Foco em reposição econômica de produtos de uso frequente",
+          "Preço de até R$ 50 no anúncio",
+          "Atenção ao frete antes de fechar a compra",
+          "Cupons da plataforma podem baixar ainda mais",
         ],
       },
       {
-        title: "Preço Real sem Pegadinhas",
+        title: "Qualidade mínima",
         items: [
-          "Checagem do valor praticado nos marketplaces sem taxas ocultas",
-          "Prioridade para anúncios com frete econômico ou cupons ativos",
-          "Itens com estoque ativo e entrega regular",
+          "Nota média alta e muitas avaliações",
+          "Fotos de compradoras parecidas com o anúncio",
+          "Sem reclamações frequentes de produto falso",
         ],
       },
       {
-        title: "Aprovação de Compradoras",
+        title: "Vendedor",
         items: [
-          "Média alta de estrelas e fotos reais na página de destino",
-          "Produtos testados e aprovados pela comunidade",
-          "Garantia de proteção ao comprador da plataforma de origem",
+          "Boa reputação na plataforma",
+          "Envio regular e dentro do prazo",
+          "Política de troca da própria plataforma",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Filtro Rígido de Faixa de Preço",
-        description:
-          "Monitoramos o catálogo e isolamos os produtos cujo valor de venda permanece abaixo de R$ 50.",
-      },
-      {
-        step: 2,
-        title: "Eliminação de Anúncios Enganosos",
-        description:
-          "Descartamos anúncios com preços baixos artificiais que cobram fretes abusivos ou entregam produtos falsificados.",
-      },
-      {
-        step: 3,
-        title: "Acesso Direto à Oferta",
-        description:
-          "Você é direcionada para a página oficial do item para garantir o preço promocional.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Completar o Frete Grátis",
-        description: "Itens baratos e úteis para adicionar ao carrinho e alcançar o valor de frete grátis no marketplace.",
-      },
-      {
-        title: "Reposição Mensal sem Pesar no Bolso",
-        description: "Batons, rímeis e esfoliantes de reposição regular com orçamento controlado.",
-      },
-      {
-        title: "Lembrancinhas e Cuidados Rápidos",
-        description: "Acessórios e produtos de beleza acessíveis para presentear amigas ou colegas.",
-      },
+      { title: "Completar o frete grátis", description: "Itens úteis pra fechar o valor mínimo do frete grátis." },
+      { title: "Reposição sem pesar", description: "Os itens que mais acabam, dentro do orçamento do mês." },
+      { title: "Lembrancinhas", description: "Produtos de beleza baratos pra presentear." },
     ],
     faqs: [
       {
-        question: "Os produtos de até R$ 50 têm a mesma garantia?",
+        question: "Por que um item pode passar de R$ 50?",
         answer:
-          "Sim. Todas as compras em plataformas como Mercado Livre, SHEIN e TikTok Shop possuem a mesma proteção legal de 7 dias para devolução e garantia do vendedor.",
+          "O preço é do vendedor e muda quando uma promoção acaba. O valor que vale é sempre o que aparece no anúncio na hora da compra.",
       },
-      {
-        question: "Por que o preço pode oscilar acima de R$ 50 em alguns momentos?",
-        answer:
-          "Os lojistas atualizam preços dinamicamente. Caso um item ultrapasse o valor devido ao fim de uma promoção, nossa equipe realiza o ajuste periódico no portal.",
-      },
+      DELIVERY_FAQ,
     ],
     customFilter: (allProds) => allProds.filter((p) => p.price <= 50),
   },
   "mais-bem-avaliados": {
-    key: "avaliados",
     title: "Mais Bem Avaliados",
-    subtitle: "OS PRODUTOS COM MAIOR APROVAÇÃO DAS COMPRADORAS",
+    subtitle: "NOTA 4,7 OU MAIS, ORDENADOS POR NOTA E VENDAS",
     description:
-      "Seleção dos produtos com as melhores notas, maior volume de recompras e comentários positivos nos marketplaces oficiais.",
+      "Os produtos com as notas mais altas e mais vendas nas plataformas, pra quem quer ir no que já foi aprovado.",
     badge: "TOP RATED // CURADORIA 2026",
     metrics: [
-      { value: "4.8+", label: "Média de Estrelas" },
-      { value: "Top Vendas", label: "Volume de Pedidos" },
-      { value: "100%", label: "Lojas Oficiais" },
+      { value: "4,7+", label: "Nota mínima" },
+      { value: "Vendas", label: "Critério de desempate" },
+      { value: "R$ 0", label: "Custo extra pra você" },
     ],
     criteria: [
       {
-        title: "Consistência de Avaliações",
+        title: "Nota consistente",
         items: [
-          "Centenas de notas 5 estrelas registradas por compradores verificados",
-          "Histórico de baixo índice de devoluções e reclamações",
-          "Fidelidade entre as fotos do catálogo e o produto entregue",
+          "Média de 4,7 estrelas ou mais",
+          "Volume grande de avaliações, não só meia dúzia",
+          "Fotos de compradoras parecidas com o anúncio",
         ],
       },
       {
-        title: "Reputação do Vendedor",
+        title: "Vendedor",
         items: [
-          "Lojas com medalha de excelência e alta taxa de resposta",
-          "Embalagens reforçadas para evitar danos no transporte",
-          "Postagem rápida dentro do prazo estabelecido",
+          "Boa reputação na plataforma",
+          "Envio regular e dentro do prazo",
+          "Respostas às dúvidas no anúncio",
         ],
       },
       {
-        title: "Satisfação no Uso Contínuo",
+        title: "Recompra",
         items: [
-          "Relatos de clientes que compraram mais de uma vez o mesmo item",
-          "Destaque em durabilidade, acabamento e praticidade",
-          "Excelente percepção de valor pelo preço pago",
+          "Relatos de quem comprou de novo",
+          "Produto de uso contínuo",
+          "Preço estável ao longo do tempo",
         ],
       },
     ],
-    steps: [
-      {
-        step: 1,
-        title: "Varredura de Scores e Feedbacks",
-        description:
-          "Compilamos as notas das plataformas e filtramos apenas itens que mantêm média superior a 4.7 estrelas.",
-      },
-      {
-        step: 2,
-        title: "Auditoria de Comentários e Fotos",
-        description:
-          "Lemos os comentários críticos para garantir que o produto não possui falhas crônicas de fabricação.",
-      },
-      {
-        step: 3,
-        title: "Link Direto para o Anúncio Oficial",
-        description:
-          "Direcionamos você para o vendedor oficial com a melhor classificação da plataforma.",
-      },
-    ],
+    steps: SELECTION_STEPS,
     useCases: [
-      {
-        title: "Compra sem Risco de Erro",
-        description: "Ideal para quem não quer perder tempo pesquisando e prefere escolher o produto campeão de aprovação.",
-      },
-      {
-        title: "Presente Garantido",
-        description: "Produtos com aclamação unânime para presentear com segurança total de que a pessoa vai adorar.",
-      },
-      {
-        title: "Upgrade na Rotina de Beleza",
-        description: "Ferramentas e cosméticos consagrados que entregam performance superior comprovada.",
-      },
+      { title: "Comprar sem pesquisar", description: "Pra quem quer ir direto no que a maioria aprovou." },
+      { title: "Presente seguro", description: "Produtos com aprovação alta, com menos risco de errar." },
+      { title: "Trocar de produto", description: "Alternativas bem avaliadas pro que você já usa." },
     ],
     faqs: [
       {
-        question: "Como vocês definem os produtos mais bem avaliados?",
+        question: "A seleção é paga pelas lojas?",
         answer:
-          "Analisamos o cruzamento entre o volume total de pedidos, a nota média de estrelas e a porcentagem de fotos positivas postadas por clientes reais.",
+          "Não. Lojista não paga pra aparecer aqui. Recebemos comissão da plataforma quando alguém compra pelo link, sem custo extra pra quem compra.",
       },
-      {
-        question: "As avaliações do site são independentes?",
-        answer:
-          "Sim. Nossa curadoria editorial é 100% independente e não aceita pagamentos de lojistas para inflar notas ou alterar posições de ranking.",
-      },
+      DELIVERY_FAQ,
     ],
-    customFilter: (allProds) => allProds,
+    customFilter: (allProds) =>
+      allProds
+        .filter((p) => (p.rating ?? 0) >= 4.7)
+        .sort(
+          (a, b) =>
+            (b.rating ?? 0) - (a.rating ?? 0) || (b.soldCount ?? 0) - (a.soldCount ?? 0)
+        ),
   },
 };
+
+
+
+
+
+
+
+
 
 export default function CategoryPage({
   params,
@@ -719,32 +436,42 @@ export default function CategoryPage({
   const resolvedParams = "then" in params ? use(params) : params;
   const rawSlug = resolvedParams.categoria.toLowerCase();
 
-  // Mapeamento inteligente de sinônimos e slugs do Header
+
+
+
+
+
+  // Map synonyms and legacy slugs to the canonical category slug
   const categoryKey = useMemo(() => {
-    if (rawSlug === "maquiagem" || rawSlug.includes("batom") || rawSlug.includes("labio")) return "maquiagem";
-    if (rawSlug === "bolsas-femininas" || rawSlug.includes("bolsa")) return "bolsas-femininas";
-    if (rawSlug === "brincos-colares" || rawSlug.includes("brinco") || rawSlug.includes("colar") || rawSlug.includes("acessorio")) return "brincos-colares";
-    if (rawSlug === "skincare" || rawSlug.includes("pele") || rawSlug.includes("creme")) return "skincare";
-    if (rawSlug === "cabelo-unhas" || rawSlug.includes("chapinha") || rawSlug.includes("cabelo") || rawSlug.includes("unha")) return "cabelo-unhas";
-    if (rawSlug === "presentes" || rawSlug.includes("presente")) return "presentes";
-    if (rawSlug === "achados-ate-50" || rawSlug.includes("50")) return "achados-ate-50";
-    if (rawSlug === "mais-bem-avaliados" || rawSlug.includes("avaliado")) return "mais-bem-avaliados";
-    return CATEGORY_MAP[rawSlug] ? rawSlug : null;
+    if (CATEGORY_MAP[rawSlug]) return rawSlug;
+    if (rawSlug.includes("batom") || rawSlug.includes("base") || rawSlug.includes("labio")) return "maquiagem";
+    if (rawSlug.includes("pele") || rawSlug.includes("creme") || rawSlug.includes("serum")) return "skincare";
+    if (rawSlug.includes("cabelo") || rawSlug.includes("shampoo")) return "cabelo";
+    if (rawSlug.includes("corpo") || rawSlug.includes("banho")) return "corpo-e-banho";
+    if (rawSlug.includes("unha") || rawSlug.includes("esmalte")) return "unhas";
+    if (rawSlug.includes("50")) return "achados-ate-50";
+    if (rawSlug.includes("avaliad")) return "mais-bem-avaliados";
+    return null;
   }, [rawSlug]);
 
-  const catData = categoryKey ? CATEGORY_MAP[categoryKey] : null;
-
-  if (!catData) {
+  if (!categoryKey) {
     notFound();
   }
 
-  // Carrega produtos com filtro customizado ou pela categoria do mock
+  // Legacy and synonym slugs redirect to the canonical URL to avoid duplicate pages
+  if (categoryKey !== rawSlug) {
+    redirect(`/${categoryKey}`);
+  }
+
+  const catData = CATEGORY_MAP[categoryKey];
+
+  // Curated lists use their own filter; categories show only their own products
   const allProducts = getAllProducts();
   const products = catData.customFilter
     ? catData.customFilter(allProducts)
-    : getByCategory(catData.key as Product["category"]).length > 0
-    ? getByCategory(catData.key as Product["category"])
-    : allProducts.slice(0, 6); // Fallback amigável se a categoria específica não tiver mock
+    : catData.key
+    ? getByCategory(catData.key)
+    : [];
 
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });

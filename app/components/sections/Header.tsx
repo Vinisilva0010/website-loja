@@ -23,13 +23,12 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const categoriasLinks = [
-    { name: "MAQUIAGEM & BELEZA", href: "/maquiagem" },
-    { name: "BOLSAS FEMININAS", href: "/acessorios/bolsas-femininas" },
-    { name: "BRINCOS & COLARES", href: "/acessorios/brincos-colares" },
-    { name: "SKINCARE & CUIDADOS", href: "/skincare" },
-    { name: "CABELO & UNHAS", href: "/cabelo-unhas" },
-    { name: "PRESENTES FEMININOS", href: "/presentes" },
+    const categoriasLinks = [
+    { name: "MAQUIAGEM", href: "/maquiagem" },
+    { name: "SKINCARE", href: "/skincare" },
+    { name: "CABELO", href: "/cabelo" },
+    { name: "CORPO & BANHO", href: "/corpo-e-banho" },
+    { name: "UNHAS", href: "/unhas" },
   ];
 
   const curadoriaLinks = [
@@ -116,8 +115,8 @@ export default function Header() {
             </Link>
 
             {/* CTA BUTTON */}
-            <Link
-              href="/blog"
+              <Link
+              href="/achados-ate-50"
               className="border-[4px] border-[#970797] bg-shock text-[#970797] px-6 py-3 font-mono text-base font-black uppercase shadow-[4px_4px_0px_#970797] hover:-translate-y-1 active:translate-y-0 active:shadow-none transition-all"
             >
               VER ACHADOS [›]

@@ -47,12 +47,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Categorias de Produtos e Hubs de Curadoria
   const categoryPages: MetadataRoute.Sitemap = [
-    "/maquiagem",
-    "/bolsas-femininas",
-    "/brincos-colares",
+        "/maquiagem",
     "/skincare",
-    "/cabelo-unhas",
-    "/presentes",
+    "/cabelo",
+    "/corpo-e-banho",
+    "/unhas",
     "/achados-ate-50",
     "/mais-bem-avaliados",
   ].map((route) => ({

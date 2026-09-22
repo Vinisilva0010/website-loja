@@ -91,35 +91,30 @@ export default function Footer() {
                 Categorias
               </h3>
             </div>
-            <ul className="space-y-3 font-mono text-sm font-black text-white">
+                       <ul className="space-y-3 font-mono text-sm font-black text-white">
               <li>
                 <Link href="/maquiagem" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Batons & Maquiagem
-                </Link>
-              </li>
-              <li>
-                <Link href="/acessorios/bolsas-femininas" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Bolsas Femininas
-                </Link>
-              </li>
-              <li>
-                <Link href="/acessorios/brincos-colares" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Brincos & Semijoias
+                  <span>›</span> Maquiagem
                 </Link>
               </li>
               <li>
                 <Link href="/skincare" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Skincare & Cuidados
+                  <span>›</span> Skincare
                 </Link>
               </li>
               <li>
-                <Link href="/cabelo-unhas" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Cabelo & Ferramentas
+                <Link href="/cabelo" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Cabelo
                 </Link>
               </li>
               <li>
-                <Link href="/presentes" className="hover:underline flex items-center gap-1.5">
-                  <span>›</span> Ideias de Presentes
+                <Link href="/corpo-e-banho" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Corpo & Banho
+                </Link>
+              </li>
+              <li>
+                <Link href="/unhas" className="hover:underline flex items-center gap-1.5">
+                  <span>›</span> Unhas
                 </Link>
               </li>
             </ul>

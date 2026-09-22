@@ -25,7 +25,7 @@ const anton = Anton({
 export const metadata: Metadata = {
   metadataBase: new URL("https://sherypink.com/"),
   title: {
-    default: "SHERYPINK | Curadoria & Guias de Produtos Femininos",
+    default: "SHERYPINK| Curadoria & Guias de Produtos Femininos",
     template: "%s | SHERYPINK",
   },
   description:

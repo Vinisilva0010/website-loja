@@ -856,11 +856,13 @@ export default function CategoryPage({
                   ? Math.round(100 - (product.price / product.originalPrice!) * 100)
                   : 0;
 
-                const platformName =
-                  product.platform === "tiktok-shop"
+                                const platformName =
+                  product.platform === "shopee"
+                    ? "Shopee"
+                    : product.platform === "amazon"
+                    ? "Amazon"
+                    : product.platform === "tiktok-shop"
                     ? "TikTok Shop"
-                    : product.platform === "shein"
-                    ? "SHEIN"
                     : "Mercado Livre";
 
                 return (

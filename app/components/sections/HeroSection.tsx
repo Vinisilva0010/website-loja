@@ -32,8 +32,9 @@ const BENEFITS = [
 ];
 
 function platformLabel(platform: Product["platform"]) {
+  if (platform === "shopee") return "Shopee";
+  if (platform === "amazon") return "Amazon";
   if (platform === "tiktok-shop") return "TikTok Shop";
-  if (platform === "shein") return "SHEIN";
   return "Mercado Livre";
 }
 
@@ -58,11 +59,6 @@ function AnnouncementBar() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const hasDiscount = !!product.originalPrice && product.originalPrice > product.price;
-  const discountPercent = hasDiscount
-    ? Math.round(100 - (product.price / product.originalPrice!) * 100)
-    : 0;
-
   return (
     <a
       href={`/go/${product.id}`}
@@ -104,18 +100,7 @@ function ProductCard({ product }: { product: Product }) {
           ⚡ RELÂMPAGO
         </span>
 
-        {/* SELO DE PORCENTAGEM DE DESCONTO */}
-        {hasDiscount && (
-          <span
-            className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black"
-            style={{
-              backgroundColor: "var(--color-support)",
-              color: "var(--color-base)",
-            }}
-          >
-            -{discountPercent}%
-          </span>
-        )}
+        
       </div>
 
       {/* DETALHES DO PRODUTO */}
@@ -143,25 +128,8 @@ function ProductCard({ product }: { product: Product }) {
           </p>
         </div>
 
-        {/* PREÇO E BOTÃO COMPACTO */}
+               {/* BOTÃO VER OFERTA */}
         <div className="pt-1">
-          <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
-            {hasDiscount && (
-              <span
-                className="font-sans text-[11px] sm:text-sm font-bold line-through opacity-50"
-                style={{ color: "var(--color-text)" }}
-              >
-                R$ {product.originalPrice!.toFixed(2)}
-              </span>
-            )}
-            <span
-              className="font-title text-base sm:text-2xl font-black leading-none"
-              style={{ color: "var(--color-support)" }}
-            >
-              R$ {product.price.toFixed(2)}
-            </span>
-          </div>
-
           <span
             className="mt-2 inline-block w-full text-center font-title text-xs sm:text-sm font-black uppercase tracking-wide rounded-lg py-2 sm:py-2.5 group-hover:brightness-110 transition-all border-[2px]"
             style={{

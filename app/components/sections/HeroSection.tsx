@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { getByCategory, type Product } from "@/lib/products";
 
@@ -38,6 +39,193 @@ function platformLabel(platform: Product["platform"]) {
   return "Mercado Livre";
 }
 
+function formatBRL(value: number) {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function formatSold(count: number) {
+  if (count >= 1000) {
+    const thousands = (count / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 });
+    return `${thousands} mil vendidos`;
+  }
+  return `${count} vendidos`;
+}
+
+function formatCheckedAt(iso: string) {
+  const [year, month, day] = iso.slice(0, 10).split("-");
+  return `${day}/${month}/${year}`;
+}
+
+function getDiscount(product: Product) {
+  const hasDiscount = !!product.originalPrice && product.originalPrice > product.price;
+  const percent = hasDiscount
+    ? Math.round(100 - (product.price / product.originalPrice!) * 100)
+    : 0;
+  return { hasDiscount, percent };
+}
+
+function RatingLine({ product, size = "sm" }: { product: Product; size?: "sm" | "md" }) {
+  if (product.rating === undefined && product.soldCount === undefined) return null;
+  const textSize = size === "md" ? "text-sm" : "text-[10px] sm:text-xs";
+
+  return (
+    <div
+      className={`flex flex-wrap items-center gap-x-2 gap-y-0.5 font-mono font-black ${textSize}`}
+      style={{ color: "var(--color-text)" }}
+    >
+      {product.rating !== undefined && (
+        <span aria-label={`Nota ${product.rating} de 5`}>
+          <span style={{ color: "#f5a623" }} aria-hidden="true">★</span>{" "}
+          {product.rating.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+          {product.reviewCount !== undefined && (
+            <span className="opacity-60"> ({product.reviewCount.toLocaleString("pt-BR")})</span>
+          )}
+        </span>
+      )}
+      {product.soldCount !== undefined && (
+        <span className="opacity-80">{formatSold(product.soldCount)}</span>
+      )}
+    </div>
+  );
+}
+
+function ProductDetailsModal({ product, onClose }: { product: Product; onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+  const { hasDiscount, percent } = getDiscount(product);
+  const platform = platformLabel(product.platform);
+  const titleId = `product-details-${product.id}`;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [onClose]);
+
+  if (!mounted) return null;
+
+  const stop = (e: React.SyntheticEvent) => e.stopPropagation();
+
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+      onClick={onClose}
+      onTouchStart={stop}
+      onTouchMove={stop}
+      onTouchEnd={stop}
+    >
+      <div
+        onClick={stop}
+        className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl border-[4px] p-5 sm:p-6 flex flex-col gap-4"
+        style={{
+          backgroundColor: "var(--color-base)",
+          borderColor: "var(--color-identity)",
+          color: "var(--color-text)",
+        }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar"
+          className="absolute top-3 right-3 w-9 h-9 rounded-full font-mono text-lg font-black flex items-center justify-center"
+          style={{ backgroundColor: "var(--color-support)", color: "var(--color-base)" }}
+        >
+          ✕
+        </button>
+
+        <div className="flex gap-4 items-start pr-10">
+          <div
+            className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden border-[3px]"
+            style={{ borderColor: "var(--color-identity)" }}
+          >
+            <Image src={product.image} alt={product.name} fill sizes="112px" className="object-cover" />
+          </div>
+          <div className="flex flex-col gap-1 min-w-0">
+            <span
+              className="font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider"
+              style={{ color: "var(--color-support)" }}
+            >
+              {platform}
+              {product.shopName ? ` · ${product.shopName}` : ""}
+            </span>
+            <h3 id={titleId} className="font-title text-lg sm:text-2xl font-black uppercase leading-tight">
+              {product.name}
+            </h3>
+            <RatingLine product={product} size="md" />
+          </div>
+        </div>
+
+        <p className="font-sans text-sm sm:text-base font-bold leading-relaxed">{product.description}</p>
+
+        {product.highlights && product.highlights.length > 0 && (
+          <ul className="flex flex-col gap-2">
+            {product.highlights.map((item, i) => (
+              <li key={i} className="font-sans text-sm font-bold flex items-start gap-2">
+                <span style={{ color: "var(--color-support)" }} aria-hidden="true">■</span>
+                <span className="leading-snug">{item}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="flex items-baseline gap-2 flex-wrap">
+          {hasDiscount && (
+            <span className="font-sans text-sm font-bold line-through opacity-50">
+              {formatBRL(product.originalPrice!)}
+            </span>
+          )}
+          <span className="font-title text-3xl font-black leading-none" style={{ color: "var(--color-support)" }}>
+            {formatBRL(product.price)}
+          </span>
+          {hasDiscount && (
+            <span
+              className="px-2 py-0.5 rounded font-mono text-xs font-black"
+              style={{ backgroundColor: "var(--color-support)", color: "var(--color-base)" }}
+            >
+              -{percent}%
+            </span>
+          )}
+        </div>
+
+        <p className="font-sans text-[11px] sm:text-xs font-bold opacity-70 leading-snug">
+          {product.priceCheckedAt ? `Preço conferido em ${formatCheckedAt(product.priceCheckedAt)}. ` : ""}
+          Preço e estoque podem mudar; o valor final aparece na {platform}. Este é um link de afiliado: podemos
+          receber comissão, sem custo extra pra você.
+        </p>
+
+        
+          <a href={`/go/${product.id}`}
+          target="_blank"
+          rel="sponsored nofollow noopener noreferrer"
+          className="block w-full text-center font-title text-sm font-black uppercase tracking-wide rounded-lg py-3 border-[2px] hover:brightness-110 transition-all"
+          style={{
+            backgroundColor: "var(--color-support)",
+            color: "var(--color-base)",
+            borderColor: "var(--color-support)",
+          }}
+        >
+          VER OFERTA NA {platform} [›]
+        </a>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 function AnnouncementBar() {
   const [index, setIndex] = useState(0);
 
@@ -59,90 +247,148 @@ function AnnouncementBar() {
 }
 
 function ProductCard({ product }: { product: Product }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const closeDetails = useCallback(() => setDetailsOpen(false), []);
+  const { hasDiscount, percent } = getDiscount(product);
+  const platform = platformLabel(product.platform);
+  const offerHref = `/go/${product.id}`;
+
   return (
-    <a
-      href={`/go/${product.id}`}
-      target="_blank"
-      rel="sponsored nofollow noopener noreferrer"
-      aria-label={`Ver oferta de ${product.name} na ${platformLabel(product.platform)}`}
-      className="group flex flex-col gap-2 sm:gap-4 w-full h-full justify-between select-none p-2 sm:p-3 rounded-2xl border-[3px] sm:border-[4px]"
-      style={{
-        backgroundColor: "var(--color-base)",
-        borderColor: "var(--color-identity)",
-        boxShadow: `0 4px 16px var(--color-identity)33`,
-      }}
-    >
-      {/* IMAGEM + TAGS DE MARKETING */}
+    <>
       <div
-        className="relative w-full aspect-square rounded-xl overflow-hidden border-[2px] sm:border-[4px] group-hover:-translate-y-0.5 transition-transform duration-200"
+        className="group flex flex-col gap-2 sm:gap-4 w-full h-full justify-between select-none p-2 sm:p-3 rounded-2xl border-[3px] sm:border-[4px]"
         style={{
-          borderColor: "var(--color-identity)",
           backgroundColor: "var(--color-base)",
+          borderColor: "var(--color-identity)",
+          boxShadow: `0 4px 16px var(--color-identity)33`,
         }}
       >
-        <Image
-          src={product.image}
-          alt={`${product.name} — ${product.description}`}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"
-        />
-
-        {/* SELO FIXO DE OFERTA RELÂMPAGO */}
-        <span
-          className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black uppercase tracking-wider shadow-md"
+        {/* IMAGE + MARKETING BADGES */}
+        
+          <a href={offerHref}
+          target="_blank"
+          rel="sponsored nofollow noopener noreferrer"
+          aria-label={`Ver oferta de ${product.name} na ${platform}`}
+          className="relative block w-full aspect-square rounded-xl overflow-hidden border-[2px] sm:border-[4px] group-hover:-translate-y-0.5 transition-transform duration-200"
           style={{
-            backgroundColor: "#ffe600",
-            color: "#000000",
-            border: "1.5px solid #000000",
+            borderColor: "var(--color-identity)",
+            backgroundColor: "var(--color-base)",
           }}
         >
-          ⚡ RELÂMPAGO
-        </span>
+          <Image
+            src={product.image}
+            alt={`${product.name} — ${product.description}`}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"
+          />
 
-        
+          {product.badge && (
+            <span
+              className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black uppercase tracking-wider shadow-md"
+              style={{
+                backgroundColor: "#ffe600",
+                color: "#000000",
+                border: "1.5px solid #000000",
+              }}
+            >
+              ⚡ {product.badge}
+            </span>
+          )}
+
+          {hasDiscount && (
+            <span
+              className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 px-1.5 py-0.5 sm:px-2 sm:py-1 rounded font-mono text-[9px] sm:text-xs font-black"
+              style={{
+                backgroundColor: "var(--color-support)",
+                color: "var(--color-base)",
+              }}
+            >
+              -{percent}%
+            </span>
+          )}
+        </a>
+
+        {/* PRODUCT DETAILS */}
+        <div className="flex flex-col gap-1.5 flex-grow justify-between">
+          <div className="flex flex-col gap-0.5">
+            <span
+              className="font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider line-clamp-1"
+              style={{ color: "var(--color-support)" }}
+            >
+              {platform}
+              {product.shopName ? ` · ${product.shopName}` : ""}
+            </span>
+
+            <h3
+              className="font-title text-sm sm:text-xl font-black uppercase leading-snug line-clamp-2"
+              style={{ color: "var(--color-text)" }}
+            >
+              {product.name}
+            </h3>
+
+            <RatingLine product={product} />
+
+            <p
+              className="font-sans text-xs sm:text-sm font-bold leading-tight line-clamp-1 opacity-80"
+              style={{ color: "var(--color-text)" }}
+            >
+              {product.description}
+            </p>
+          </div>
+
+          {/* PRICE + ACTIONS */}
+          <div className="pt-1">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2">
+              {hasDiscount && (
+                <span
+                  className="font-sans text-[11px] sm:text-sm font-bold line-through opacity-50"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {formatBRL(product.originalPrice!)}
+                </span>
+              )}
+              <span
+                className="font-title text-base sm:text-2xl font-black leading-none"
+                style={{ color: "var(--color-support)" }}
+              >
+                {formatBRL(product.price)}
+              </span>
+            </div>
+
+            
+             <a href={offerHref}
+              target="_blank"
+              rel="sponsored nofollow noopener noreferrer"
+              className="mt-2 block w-full text-center font-title text-xs sm:text-sm font-black uppercase tracking-wide rounded-lg py-2 sm:py-2.5 hover:brightness-110 transition-all border-[2px]"
+              style={{
+                backgroundColor: "var(--color-support)",
+                color: "var(--color-base)",
+                borderColor: "var(--color-support)",
+              }}
+            >
+              VER OFERTA [›]
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setDetailsOpen(true)}
+              aria-haspopup="dialog"
+              className="mt-1.5 w-full text-center font-mono text-[10px] sm:text-xs font-black uppercase tracking-wide rounded-lg py-1.5 border-[2px] transition-all hover:brightness-110"
+              style={{
+                color: "var(--color-support)",
+                borderColor: "var(--color-support)",
+                backgroundColor: "transparent",
+              }}
+            >
+              Saiba mais
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* DETALHES DO PRODUTO */}
-      <div className="flex flex-col gap-1.5 flex-grow justify-between">
-        <div className="flex flex-col gap-0.5">
-          <span
-            className="font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider"
-            style={{ color: "var(--color-support)" }}
-          >
-            {platformLabel(product.platform)}
-          </span>
-
-          <h3
-            className="font-title text-sm sm:text-xl font-black uppercase leading-snug line-clamp-2"
-            style={{ color: "var(--color-text)" }}
-          >
-            {product.name}
-          </h3>
-
-          <p
-            className="font-sans text-xs sm:text-sm font-bold leading-tight line-clamp-1 opacity-80"
-            style={{ color: "var(--color-text)" }}
-          >
-            {product.description}
-          </p>
-        </div>
-
-               {/* BOTÃO VER OFERTA */}
-        <div className="pt-1">
-          <span
-            className="mt-2 inline-block w-full text-center font-title text-xs sm:text-sm font-black uppercase tracking-wide rounded-lg py-2 sm:py-2.5 group-hover:brightness-110 transition-all border-[2px]"
-            style={{
-              backgroundColor: "var(--color-support)",
-              color: "var(--color-base)",
-              borderColor: "var(--color-support)",
-            }}
-          >
-            VER OFERTA [›]
-          </span>
-        </div>
-      </div>
-    </a>
+      {detailsOpen && <ProductDetailsModal product={product} onClose={closeDetails} />}
+    </>
   );
 }
 

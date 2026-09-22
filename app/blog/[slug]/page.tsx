@@ -1,88 +1,115 @@
-import { getAllPosts, extractFaqFromContent } from "@/lib/blog";
+import { getAllPosts, extractFaqFromContent, type PostData } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { Metadata } from "next";
 import Footer from "@/app/components/sections/Footer";
+import PostProduct from "@/app/components/blog/PostProduct";
 
-export async function generateStaticParams() {
-  const posts = getAllPosts();
+const SITE_URL = "https://sherypink.com";
+const SITE_NAME = "SheryPink";
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+type RouteParams = { slug: string };
+type PageProps = { params: Promise<RouteParams> | RouteParams };
+
+// Components available inside .mdx posts, e.g. <Produto id="product-id" />
+const mdxComponents = { Produto: PostProduct };
+
+function formatDate(iso?: string) {
+  if (!iso || !/^\d{4}-\d{2}-\d{2}/.test(iso)) return iso ?? "";
+  const [year, month, day] = iso.slice(0, 10).split("-");
+  return `${day}/${month}/${year}`;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const post = getAllPosts().find((p) => p.slug === params.slug);
+// Returns undefined for empty or invalid dates instead of crashing the build
+function toIsoDate(value?: string) {
+  if (!value) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
+// Escapes "<" so post text can never close the JSON-LD script tag
+function toJsonLd(data: unknown) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+function findPost(slug: string): PostData | undefined {
+  return getAllPosts().find((p) => p.slug === slug);
+}
+
+export async function generateStaticParams() {
+  return getAllPosts().map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = findPost(slug);
 
   if (!post) {
-    return {
-      title: "Artigo Não Encontrado | Zanvendas",
-    };
+    return { title: { absolute: `Artigo não encontrado | ${SITE_NAME}` } };
   }
 
+  const url = `${SITE_URL}/blog/${slug}`;
+  const images = post.image ? [`${SITE_URL}${post.image}`] : [];
+
   return {
-    title: `${post.title} | Zanvendas`,
+    title: { absolute: `${post.title} | ${SITE_NAME}` },
     description: post.description,
-    alternates: {
-      canonical: `https://sherypink.com/blog/${params.slug}`,
-    },
+    alternates: { canonical: url },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.updated || post.date,
-      url: `https://sherypink.com/blog/${params.slug}`,
-      images: post.image ? [`https://sherypink.com${post.image}`] : [],
+      url,
+      siteName: SITE_NAME,
+      locale: "pt_BR",
+      images,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.image ? [`https://sherypink.com${post.image}`] : [],
+      images,
     },
   };
 }
 
-export default function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function BlogPostPage({ params }: PageProps) {
+  const { slug } = await params;
   const allPosts = getAllPosts();
-  const post = allPosts.find((p) => p.slug === params.slug);
+  const post = allPosts.find((p) => p.slug === slug);
 
   if (!post) {
     notFound();
   }
 
+  const isBeauty = post.category === "beleza";
+
+  // Related posts stay within the same category so beauty readers never land on seller guides
   const relatedPosts = allPosts
-    .filter((p) => p.slug !== params.slug)
+    .filter((p) => p.slug !== slug && p.category === post.category)
     .slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
-    image: post.image ? [`https://sherypink.com${post.image}`] : [],
-    datePublished: new Date(post.date).toISOString(),
-    dateModified: new Date(post.updated || post.date).toISOString(),
+    image: post.image ? [`${SITE_URL}${post.image}`] : [],
+    datePublished: toIsoDate(post.date),
+    dateModified: toIsoDate(post.updated || post.date),
     author: {
       "@type": "Organization",
-      name: "Operação SHERYPINK",
-      url: "https://sherypink.com/sobre",
+      name: SITE_NAME,
+      url: `${SITE_URL}/sobre`,
     },
     publisher: {
       "@type": "Organization",
-      name: "SHERYPINK",
+      name: SITE_NAME,
     },
     description: post.description,
+    mainEntityOfPage: `${SITE_URL}/blog/${slug}`,
   };
 
   const faqItems = extractFaqFromContent(post.content);
@@ -105,25 +132,15 @@ export default function BlogPostPage({
 
   return (
     <div className="flex min-h-screen flex-col bg-[#f7f3f1] text-black">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }} />
 
       {faqJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqJsonLd),
-          }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(faqJsonLd) }} />
       )}
 
       <main className="relative z-20 flex-grow px-4 pb-24 pt-32 sm:px-6 md:px-12">
         <article className="mx-auto max-w-4xl">
-          {/* NAVEGAÇÃO & BREADCRUMBS */}
+          {/* NAVIGATION & BREADCRUMBS */}
           <div className="mb-12">
             <nav
               aria-label="Breadcrumb"
@@ -134,39 +151,35 @@ export default function BlogPostPage({
               </Link>
               <span className="text-[#8e8ef7] font-black">/</span>
               <Link href="/blog" className="hover:text-black transition-colors">
-                Insights
+                Guias
               </Link>
               <span className="text-[#8e8ef7] font-black">/</span>
-              <span className="max-w-[280px] truncate text-black font-black">
-                {post.title}
-              </span>
+              <span className="max-w-[280px] truncate text-black font-black">{post.title}</span>
             </nav>
 
             <Link
-              href="/blog"
+              href={isBeauty ? "/blog" : "/blog#vendas"}
               className="group inline-flex items-center gap-2 border-2 border-black bg-white px-4 py-2 rounded-xl font-mono text-xs font-black uppercase text-black shadow-[3px_3px_0px_#000000] hover:bg-[#8e8ef7] transition-all active:translate-y-0.5"
             >
-              <span className="transition-transform group-hover:-translate-x-1">
-                ←
-              </span>
-              Voltar ao Diretório
+              <span className="transition-transform group-hover:-translate-x-1">←</span>
+              Voltar aos Guias
             </Link>
           </div>
 
-          {/* CABEÇALHO DO ARTIGO */}
+          {/* ARTICLE HEADER */}
           <header className="mb-12 border-b-4 border-black pb-12">
             <div className="mb-6 flex flex-wrap items-center gap-3">
               <span className="border-2 border-black bg-[#8e8ef7] px-3 py-1 font-mono text-xs font-black uppercase text-black rounded shadow-[2px_2px_0px_#000000]">
-                GUIA PRÁTICO
+                {isBeauty ? "GUIA DE BELEZA" : "GUIA PRÁTICO"}
               </span>
 
               <span className="font-mono text-xs font-bold uppercase text-[#56585a]">
-                PUBLICADO EM: {post.date}
+                PUBLICADO EM: {formatDate(post.date)}
               </span>
 
               {post.updated && (
                 <span className="font-mono text-xs font-bold uppercase text-[#56585a]">
-                  • ATUALIZADO EM: {post.updated}
+                  • ATUALIZADO EM: {formatDate(post.updated)}
                 </span>
               )}
             </div>
@@ -186,18 +199,22 @@ export default function BlogPostPage({
             </p>
           </header>
 
-          {/* IMAGEM DE CAPA */}
+          {/* AFFILIATE DISCLOSURE (beauty guides contain affiliate links) */}
+          {isBeauty && (
+            <p className="mb-12 rounded-2xl border-2 border-black bg-white p-4 font-mono text-xs font-bold leading-relaxed text-[#454749] shadow-[3px_3px_0px_#000000]">
+              Este guia tem links de afiliado: se você comprar por eles, podemos receber uma comissão da
+              plataforma, sem custo extra pra você. A compra, o pagamento e a entrega são feitos na loja oficial.
+            </p>
+          )}
+
+          {/* COVER IMAGE */}
           {post.image && (
             <div className="mb-16 aspect-video w-full overflow-hidden rounded-3xl border-4 border-black bg-white shadow-[10px_10px_0px_#000000]">
-              <img
-                src={post.image}
-                alt={`Imagem de capa: ${post.title}`}
-                className="h-full w-full object-cover"
-              />
+              <img src={post.image} alt={`Imagem de capa: ${post.title}`} className="h-full w-full object-cover" />
             </div>
           )}
 
-          {/* CORPO DO TEXTO (MDX STYLING NEO-BRUTALISTA) */}
+          {/* BODY (MDX) */}
           <div
             className="
               font-mono text-black
@@ -214,34 +231,35 @@ export default function BlogPostPage({
               [&>code]:rounded [&>code]:border [&>code]:border-black [&>code]:bg-[#8e8ef7]/20 [&>code]:px-1.5 [&>code]:py-0.5 [&>code]:font-mono [&>code]:text-xs [&>code]:font-black [&>code]:text-black
             "
           >
-            <MDXRemote source={post.content} />
+            <MDXRemote source={post.content} components={mdxComponents} />
           </div>
 
-          {/* CTA / BANNER DE SERVIÇOS & GUIAS */}
+          {/* CALL TO ACTION (depends on the post category) */}
           <section className="mt-16 rounded-3xl border-4 border-black bg-white p-8 sm:p-12 shadow-[10px_10px_0px_#8e8ef7]">
             <div className="mb-4 inline-block border-2 border-black bg-black px-3 py-1 font-mono text-[10px] font-black uppercase tracking-widest text-[#8e8ef7] rounded">
-              [ ARQUITETURA & GESTÃO ]
+              {isBeauty ? "[ CURADORIA SHERYPINK ]" : "[ PARA QUEM VENDE ONLINE ]"}
             </div>
 
             <h2 className="mb-4 font-title text-3xl font-black uppercase leading-tight text-black sm:text-4xl">
-              Precisa estruturar sua operação de vendas?
+              {isBeauty ? "Quer ir direto nos mais bem avaliados?" : "Mais guias pra sua operação de vendas"}
             </h2>
 
             <p className="mb-8 max-w-2xl font-mono text-xs sm:text-sm font-bold leading-relaxed text-[#454749]">
-              Conheça os comparativos entre marketplaces, tabelas de frete, estratégias
-              de precificação com margem travada e enquadramento fiscal para proteger seu lucro líquido.
+              {isBeauty
+                ? "Veja a seleção de maquiagem, skincare, cabelo e cuidados com nota alta, com o link direto pra loja oficial."
+                : "Margem, frete, tributação, anúncios e logística pra quem vende em marketplaces."}
             </p>
 
             <Link
-              href="/services/comparativo-marketplaces-vender-online"
+              href={isBeauty ? "/mais-bem-avaliados" : "/blog#vendas"}
               className="inline-flex items-center gap-2 rounded-xl border-2 border-black bg-[#8e8ef7] px-6 py-4 font-mono text-xs sm:text-sm font-black uppercase text-black shadow-[4px_4px_0px_#000000] transition-all hover:bg-black hover:text-[#f7f3f1] hover:shadow-none active:translate-y-1"
             >
-              <span>Explorar Todos os Guias</span>
+              <span>{isBeauty ? "Ver Mais Bem Avaliados" : "Ver Guias de Vendas"}</span>
               <span>→</span>
             </Link>
           </section>
 
-          {/* SEÇÃO DE ARTIGOS RELACIONADOS */}
+          {/* RELATED POSTS (same category only) */}
           {relatedPosts.length > 0 && (
             <section className="relative mt-20 border-t-4 border-black pt-12">
               <div className="mb-8 flex items-end justify-between gap-6">
@@ -249,13 +267,11 @@ export default function BlogPostPage({
                   <span className="font-mono text-xs font-black uppercase tracking-widest text-[#8e8ef7] bg-black px-2.5 py-0.5 rounded inline-block mb-2">
                     CONTINUE LENDO
                   </span>
-                  <h2 className="font-title text-2xl sm:text-3xl font-black uppercase text-black">
-                    Artigos Relacionados
-                  </h2>
+                  <h2 className="font-title text-2xl sm:text-3xl font-black uppercase text-black">Artigos Relacionados</h2>
                 </div>
 
                 <span className="hidden font-mono text-xs font-black uppercase text-[#56585a] md:block">
-                  [ 03 SUGESTÕES ]
+                  [ 0{relatedPosts.length} {relatedPosts.length === 1 ? "SUGESTÃO" : "SUGESTÕES"} ]
                 </span>
               </div>
 
@@ -267,16 +283,12 @@ export default function BlogPostPage({
                   >
                     <div>
                       <div className="mb-4 flex items-center justify-between font-mono text-xs font-black text-[#56585a]">
-                        <span className="text-[#8e8ef7] bg-black px-2 py-0.5 rounded text-[10px]">
-                          0{index + 1}
-                        </span>
-                        <span>{relatedPost.date}</span>
+                        <span className="text-[#8e8ef7] bg-black px-2 py-0.5 rounded text-[10px]">0{index + 1}</span>
+                        <span>{formatDate(relatedPost.date)}</span>
                       </div>
 
                       <h3 className="font-title text-lg font-black uppercase leading-snug text-black group-hover:text-[#8e8ef7] transition-colors mb-3">
-                        <Link href={`/blog/${relatedPost.slug}`}>
-                          {relatedPost.title}
-                        </Link>
+                        <Link href={`/blog/${relatedPost.slug}`}>{relatedPost.title}</Link>
                       </h3>
 
                       <p className="line-clamp-3 font-mono text-xs font-bold leading-relaxed text-[#56585a]">
@@ -290,9 +302,7 @@ export default function BlogPostPage({
                         className="inline-flex items-center justify-between w-full group-hover:text-[#8e8ef7] transition-colors"
                       >
                         <span>Ler Artigo</span>
-                        <span className="transition-transform group-hover:translate-x-1">
-                          →
-                        </span>
+                        <span className="transition-transform group-hover:translate-x-1">→</span>
                       </Link>
                     </div>
                   </article>

@@ -11,6 +11,7 @@ export interface PostData {
   updated?: string;
   description: string;
   image: string;
+  category: "beleza" | "vendas"; // posts without a category default to "vendas"
   content: string;
 }
 
@@ -26,7 +27,7 @@ export function getAllPosts(): PostData[] {
       (fileName) =>
         fileName.endsWith(".mdx") || fileName.endsWith(".md")
     )
-    .map((fileName) => {
+    .map((fileName): PostData => {
       const slug = fileName.replace(/\.mdx$|\.md$/, "");
       const fullPath = path.join(postsDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -40,6 +41,7 @@ export function getAllPosts(): PostData[] {
         updated: data.updated || "",
         description: data.description || "",
         image: data.image || "",
+        category: data.category === "beleza" ? "beleza" : "vendas",
         content,
       };
     });
@@ -47,6 +49,10 @@ export function getAllPosts(): PostData[] {
   return allPostsData.sort((a, b) =>
     a.date < b.date ? 1 : -1
   );
+}
+
+export function getPostsByCategory(category: PostData["category"]): PostData[] {
+  return getAllPosts().filter((post) => post.category === category);
 }
 
 export function extractFaqFromContent(

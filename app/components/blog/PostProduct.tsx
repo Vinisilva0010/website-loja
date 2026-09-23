@@ -38,7 +38,7 @@ export default function PostProduct({ id }: { id: string }) {
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl border-2 border-black">
         <Image src={product.image} alt={product.name} fill sizes="140px" className="object-cover" />
         {hasDiscount && (
-          <span className="absolute bottom-1.5 right-1.5 rounded bg-black px-1.5 py-0.5 font-mono text-[10px] font-black text-[#8e8ef7]">
+          <span className="absolute bottom-1.5 right-1.5 rounded bg-black px-1.5 py-0.5 font-mono text-xs font-black text-white">
             -{percent}%
           </span>
         )}
@@ -46,15 +46,15 @@ export default function PostProduct({ id }: { id: string }) {
 
       <div className="flex min-w-0 flex-col justify-between gap-2">
         <div>
-          <span className="font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider text-[#56585a]">
+          <span className="font-mono text-xs sm:text-sm font-black uppercase tracking-wider text-black">
             {platform}
             {product.shopName ? ` · ${product.shopName}` : ""}
           </span>
-          <p className="font-title text-base sm:text-xl font-black uppercase leading-snug text-black">
+          <p className="font-title text-lg sm:text-xl font-black uppercase leading-snug text-black">
             {product.name}
           </p>
           {(hasRating || hasSold) && (
-            <p className="font-mono text-[11px] sm:text-xs font-black text-black">
+            <p className="font-mono text-sm sm:text-sm font-black text-black">
               {hasRating &&
                 `★ ${product.rating!.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}`}
               {hasRating && product.reviewCount !== undefined && ` (${product.reviewCount.toLocaleString("pt-BR")})`}
@@ -67,7 +67,7 @@ export default function PostProduct({ id }: { id: string }) {
         <div className="flex flex-wrap items-center gap-3">
           <span className="font-title text-xl sm:text-2xl font-black text-black">{formatBRL(product.price)}</span>
           {hasDiscount && (
-            <span className="font-mono text-xs font-bold text-[#56585a] line-through">
+            <span className="font-mono text-sm font-bold text-black line-through">
               {formatBRL(product.originalPrice!)}
             </span>
           )}
@@ -76,7 +76,7 @@ export default function PostProduct({ id }: { id: string }) {
             target="_blank"
             rel="sponsored nofollow noopener noreferrer"
             prefetch={false}
-            className="sm:ml-auto inline-flex items-center gap-2 rounded-xl border-2 border-black bg-[#8e8ef7] px-4 py-2 font-mono text-xs font-black uppercase text-black shadow-[3px_3px_0px_#000000] transition-all hover:bg-black hover:text-[#f7f3f1] hover:shadow-none"
+            className="sm:ml-auto inline-flex items-center gap-2 rounded-xl border-2 border-black bg-[#8e8ef7] px-4 py-2 font-mono text-sm font-black uppercase text-black shadow-[3px_3px_0px_#000000] transition-all hover:bg-black hover:text-[#f7f3f1] hover:shadow-none"
           >
             Ver oferta na {platform} →
           </Link>

@@ -37,31 +37,31 @@ function PostCard({ post, label }: { post: PostData; label: string }) {
               <span className="font-title text-xl font-black uppercase text-black">{post.title}</span>
             </div>
           )}
-          <span className="absolute top-3 left-3 font-mono text-[9px] font-black uppercase tracking-widest px-2.5 py-1 bg-black text-[#8e8ef7] border border-black rounded z-10">
+          <span className="absolute top-3 left-3 font-mono text-xs font-black uppercase tracking-widest px-2.5 py-1 bg-black text-white border border-black rounded z-10">
             {label}
           </span>
         </div>
 
         <div className="p-6 sm:p-7">
-          <span className="font-mono text-[10px] text-[#56585a] uppercase block mb-2 font-black tracking-wider">
+          <span className="font-mono text-xs text-black uppercase block mb-2 font-black tracking-wider">
             PUBLICADO // {formatDate(post.date)}
           </span>
 
-          <h3 className="font-title text-xl font-black uppercase text-black mb-3 leading-tight group-hover:text-[#8e8ef7] transition-colors">
+          <h3 className="font-title text-xl font-black uppercase text-black mb-3 leading-tight group-hover:underline transition-colors">
             <Link href={`/blog/${post.slug}`}>{post.title}</Link>
           </h3>
 
-          <p className="font-mono text-xs font-bold text-[#56585a] leading-relaxed line-clamp-3">
+          <p className="font-mono text-sm font-bold text-black leading-relaxed line-clamp-3">
             {post.description}
           </p>
         </div>
       </div>
 
       <div className="p-6 sm:p-7 pt-0">
-        <div className="font-mono text-xs font-black text-black uppercase flex items-center justify-between w-full border-t-2 border-black/10 pt-4 group-hover:text-[#8e8ef7] transition-colors">
+        <div className="font-mono text-sm font-black text-black uppercase flex items-center justify-between w-full border-t-2 border-black/10 pt-4 group-hover:underline transition-colors">
           <Link href={`/blog/${post.slug}`} className="inline-flex items-center justify-between w-full font-bold">
             <span>Ler Artigo Completo</span>
-            <span className="text-base group-hover:translate-x-1 transition-transform">→</span>
+            <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function BlogIndexPage() {
       <header className="w-full bg-[#18191a] text-[#f7f3f1] pt-32 pb-12 px-4 sm:px-6 md:px-12 border-b-4 border-black relative z-20">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6">
-            <span className="font-mono text-xs font-black uppercase tracking-widest text-[#8e8ef7] block mb-2">
+            <span className="font-mono text-sm font-black uppercase tracking-widest text-white block mb-2">
               [ GUIAS DE BELEZA // CURADORIA ]
             </span>
             <h1
@@ -96,7 +96,7 @@ export default function BlogIndexPage() {
             </h1>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-4 border-t-2 border-black/60 font-mono text-xs font-bold uppercase">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-4 border-t-2 border-black/60 font-mono text-sm font-bold uppercase">
             {SECTION_LINKS.map((item, idx) => (
               <div key={item.href} className="flex items-center gap-3">
                 
@@ -104,7 +104,7 @@ export default function BlogIndexPage() {
                   className={`px-2.5 py-1 rounded transition-colors ${
                     idx === 0
                       ? "bg-[#8e8ef7] text-black border-2 border-black font-black shadow-[2px_2px_0px_#000000]"
-                      : "text-[#a0a3a8] hover:text-white"
+                      : "text-white hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -122,7 +122,7 @@ export default function BlogIndexPage() {
       <main className="flex-grow py-16 sm:py-20 px-4 sm:px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto space-y-20">
           <div className="max-w-3xl">
-            <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
+            <p className="font-mono text-sm sm:text-[16px] font-bold text-black leading-relaxed">
               Guias práticos pra acertar na escolha de maquiagem, skincare, cabelo e cuidados de
               reposição: o que olhar no anúncio, como ler o rótulo e o que quem usa achou. A compra
               é sempre feita na loja oficial da plataforma.
@@ -135,7 +135,7 @@ export default function BlogIndexPage() {
               <h2 className="font-title text-3xl sm:text-4xl font-black uppercase text-black">
                 Guias de Beleza em Destaque
               </h2>
-              <span className="font-mono text-xs font-black uppercase text-[#8e8ef7] bg-black px-3 py-1 border border-black rounded hidden sm:inline-block">
+              <span className="font-mono text-sm font-black uppercase text-white bg-black px-3 py-1 border border-black rounded hidden sm:inline-block">
                 ESCOLHA CERTA
               </span>
             </div>
@@ -157,31 +157,31 @@ export default function BlogIndexPage() {
                         </span>
                       </div>
                     )}
-                    <span className="absolute top-4 left-4 font-mono text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-black text-[#8e8ef7] border border-black rounded z-10">
+                    <span className="absolute top-4 left-4 font-mono text-xs font-black uppercase tracking-widest px-3 py-1 bg-black text-white border border-black rounded z-10">
                       DESTAQUE PRINCIPAL
                     </span>
                   </div>
 
                   <div className="lg:col-span-6 p-8 sm:p-12 flex flex-col justify-between">
                     <div>
-                      <span className="font-mono text-xs font-black uppercase text-[#8e8ef7] bg-black px-2.5 py-0.5 rounded inline-block mb-4">
+                      <span className="font-mono text-sm font-black uppercase text-white bg-black px-2.5 py-0.5 rounded inline-block mb-4">
                         GUIA DE BELEZA
                       </span>
 
-                      <h3 className="font-title text-2xl sm:text-3xl md:text-4xl font-black uppercase text-black mb-4 leading-tight group-hover:text-[#8e8ef7] transition-colors">
+                      <h3 className="font-title text-2xl sm:text-3xl md:text-4xl font-black uppercase text-black mb-4 leading-tight group-hover:underline transition-colors">
                         <Link href={`/blog/${heroFeatured.slug}`}>{heroFeatured.title}</Link>
                       </h3>
 
-                      <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed mb-6">
+                      <p className="font-mono text-sm sm:text-[16px] font-bold text-black leading-relaxed mb-6">
                         {heroFeatured.description}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between pt-6 border-t-2 border-black/10 font-mono text-xs font-black text-black uppercase">
+                    <div className="flex items-center justify-between pt-6 border-t-2 border-black/10 font-mono text-sm font-black text-black uppercase">
                       <span>{formatDate(heroFeatured.date)}</span>
                       <Link
                         href={`/blog/${heroFeatured.slug}`}
-                        className="inline-flex items-center gap-2 hover:text-[#8e8ef7] transition-colors font-bold"
+                        className="inline-flex items-center gap-2 hover:underline transition-colors font-bold"
                       >
                         <span>Ler Artigo Completo</span>
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
@@ -200,7 +200,7 @@ export default function BlogIndexPage() {
               </div>
             ) : (
               <div className="rounded-3xl border-4 border-black bg-white p-10 text-center shadow-[6px_6px_0px_#000000]">
-                <p className="font-mono text-xs sm:text-sm font-bold text-[#56585a] uppercase">
+                <p className="font-mono text-sm sm:text-[16px] font-bold text-black uppercase">
                   [ OS PRIMEIROS GUIAS DE BELEZA ESTÃO A CAMINHO ]
                 </p>
               </div>
@@ -214,7 +214,7 @@ export default function BlogIndexPage() {
                 <h2 className="font-title text-3xl sm:text-4xl font-black uppercase text-black">
                   Mais Guias de Beleza
                 </h2>
-                <span className="font-mono text-xs font-black text-[#56585a] uppercase">
+                <span className="font-mono text-sm font-black text-black uppercase">
                   {beautyPosts.length} {beautyPosts.length === 1 ? "GUIA" : "GUIAS"} NO TOTAL
                 </span>
               </div>
@@ -233,11 +233,11 @@ export default function BlogIndexPage() {
                 <h2 className="font-title text-3xl sm:text-4xl font-black uppercase text-black">
                   Para Quem Vende Online
                 </h2>
-                <span className="font-mono text-xs font-black text-[#56585a] uppercase">
+                <span className="font-mono text-sm font-black text-black uppercase">
                   {sellerPosts.length} {sellerPosts.length === 1 ? "ARTIGO" : "ARTIGOS"}
                 </span>
               </div>
-              <p className="max-w-3xl font-mono text-xs sm:text-sm font-bold text-[#56585a] leading-relaxed">
+              <p className="max-w-3xl font-mono text-sm sm:text-[16px] font-bold text-black leading-relaxed">
                 Guias de operação pra quem vende em marketplaces: margem, frete, tributação, anúncios
                 e logística.
               </p>
